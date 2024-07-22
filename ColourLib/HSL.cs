@@ -67,6 +67,30 @@ namespace ColourLib
             throw new NotImplementedException();
         }
         public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {l}>";
+        public HSLColor Lerp(HSLColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public static HSLColor Lerp(HSLColor from, HSLColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+
+        public Vector4 LerpUnclamped(HSLColor to, float val)
+        {
+            return new()
+            {
+                X = (h * (1.0f - val)) + (to.h * val),
+                Y = (s * (1.0f - val)) + (to.s * val),
+                Z = (l * (1.0f - val)) + (to.l * val),
+                W = float.NaN
+            };
+        }
+
+        public static Vector4 LerpUnclamped(HSLColor from, HSLColor to, float val)
+        {
+            return new()
+            {
+                X = (from.h * (1.0f - val)) + (to.h * val),
+                Y = (from.s * (1.0f - val)) + (to.s * val),
+                Z = (from.l * (1.0f - val)) + (to.l * val),
+                W = float.NaN
+            };
+        }
 
         // How do I handle operations on HSL and HSV colour space? For that matter, how do I even handle it in RGB colour space? Why did I decide to do this again?
         public static HSLColor operator +(HSLColor left, HSLColor right)

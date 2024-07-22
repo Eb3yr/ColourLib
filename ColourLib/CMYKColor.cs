@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ColourLib
 {
-    public struct CMYK : IColor<CMYK>, IHaveFourFields
+    public struct CMYKColor : IColor<CMYKColor>
     {
         private float c;
         private float m;
@@ -60,7 +60,7 @@ namespace ColourLib
                 }
             }
         }
-        public CMYK(float C, float M, float Y, float K = 0f)
+        public CMYKColor(float C, float M, float Y, float K = 0f)
         {
             this.C = C;
             this.M = M;
@@ -72,43 +72,67 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
-
-        public static H Convert<H>(CMYK color) where H : IColor<H>, new()
+        public static H Convert<H>(CMYKColor color) where H : IColor<H>, new()
         {
             throw new NotImplementedException();
         }
         public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c}, {m}, {y}, {k}>";
-        public static CMYK operator +(CMYK left, CMYK right)
+        public CMYKColor Lerp(CMYKColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public static CMYKColor Lerp(CMYKColor from, CMYKColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+
+        public Vector4 LerpUnclamped(CMYKColor to, float val)
+        {
+            return new()
+            {
+                X = (c * (1.0f - val)) + (to.c * val),
+                Y = (m * (1.0f - val)) + (to.m * val),
+                Z = (y * (1.0f - val)) + (to.y * val),
+                W = (k * (1.0f - val)) + (to.k * val)
+            };
+        }
+
+        public static Vector4 LerpUnclamped(CMYKColor from, CMYKColor to, float val)
+        {
+            return new()
+            {
+                X = (from.c * (1.0f - val)) + (to.c * val),
+                Y = (from.m * (1.0f - val)) + (to.m * val),
+                Z = (from.y * (1.0f - val)) + (to.y * val),
+                W = (from.k * (1.0f - val)) + (to.k * val)
+            };
+        }
+
+        public static CMYKColor operator +(CMYKColor left, CMYKColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYK operator -(CMYK left, CMYK right)
+        public static CMYKColor operator -(CMYKColor left, CMYKColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYK operator *(CMYK left, CMYK right)
+        public static CMYKColor operator *(CMYKColor left, CMYKColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYK operator /(CMYK left, CMYK right)
+        public static CMYKColor operator /(CMYKColor left, CMYKColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYK operator -(CMYK color)
+        public static CMYKColor operator -(CMYKColor color)
         {
             throw new NotImplementedException();
         }
 
-        public static implicit operator Vector4(CMYK color)
+        public static implicit operator Vector4(CMYKColor color)
         {
             throw new NotImplementedException();
         }
 
-        public static implicit operator CMYK(Vector4 color)
+        public static implicit operator CMYKColor(Vector4 color)
         {
             throw new NotImplementedException();
         }

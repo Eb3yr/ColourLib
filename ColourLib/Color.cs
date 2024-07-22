@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ColourLib
 {
-    public struct Color : IColor<Color>, IHaveFourFields
+    public struct Color : IColor<Color>
     {
         private float r;
         private float g;
@@ -72,8 +74,31 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
-
         public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{r}, {g}, {b}, {a}>";
+        public Color Lerp(Color colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public static Color Lerp(Color from, Color to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+
+        public Vector4 LerpUnclamped(Color to, float val)
+        {
+            return new()
+            {
+                X = (r * (1.0f - val)) + (to.r * val),
+                Y = (g * (1.0f - val)) + (to.g * val),
+                Z = (b * (1.0f - val)) + (to.b * val),
+                W = (a * (1.0f - val)) + (to.a * val)
+            };
+        }
+
+        public static Vector4 LerpUnclamped(Color from, Color to, float val)
+        {
+            return new()
+            {
+                X = (from.r * (1.0f - val)) + (to.r * val),
+                Y = (from.g * (1.0f - val)) + (to.g * val),
+                Z = (from.b * (1.0f - val)) + (to.b * val),
+                W = (from.a * (1.0f - val)) + (to.a * val)
+            };
+        }
 
         public static Color operator +(Color left, Color right)
         {
@@ -116,20 +141,26 @@ namespace ColourLib
             return color;
         }
 
-        public static implicit operator Vector4(Color color) => new()
+        public static implicit operator Vector4(Color color)
         {
-            X = color.R,
-            Y = color.G,
-            Z = color.B,
-            W = color.A
-        };
+            return new()
+            {
+                X = color.R,
+                Y = color.G,
+                Z = color.B,
+                W = color.A
+            };
+        }
 
-        public static implicit operator Color(Vector4 color) => new()
+        public static implicit operator Color(Vector4 color)
         {
-            R = color.X,
-            G = color.Y,
-            B = color.Z,
-            A = color.W
-        };
-}
+            return new()
+            {
+                R = color.X,
+                G = color.Y,
+                B = color.Z,
+                A = color.W
+            };
+        }
+    }
 }
