@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,26 +32,23 @@ namespace ColourLib
         {
             get => i switch
             {
-                0 => H,
-                1 => S,
-                2 => L,
-                _ => throw new ArgumentOutOfRangeException()
+                0 => h,
+                1 => s,
+                2 => l,
+                _ => throw new IndexOutOfRangeException()
             };
             set
             {
                 switch (i)
                 {
                     case 0:
-                        H = value;
-                        break;
+                        H = value; break;
                     case 1:
-                        S = value;
-                        break;
+                        S = value; break;
                     case 2:
-                        L = value;
-                        break;
+                        L = value; break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new IndexOutOfRangeException();
                 }
             }
         }
@@ -60,30 +58,16 @@ namespace ColourLib
             this.S = S;
             this.L = L;
         }
-        public T Convert<T>()
+        public H Convert<H>() where H : IColor<H>, new()
         {
-            return Convert<T>(this);
+            return Convert<H>(this);
         }
-        public static T Convert<T>(HSLColor c)
-        {
-            throw new NotImplementedException();
-        }
-        public HSLColor Lerp(HSLColor to, float val)
-        {
-            return Lerp(this, to, val);
-        }
-        public static HSLColor Lerp(HSLColor from, HSLColor to, float val)
+        public static H Convert<H>(HSLColor c) where H : IColor<H>, new()
         {
             throw new NotImplementedException();
         }
-        public HSLColor LerpUnclamped(HSLColor to, float val)
-        {
-            return LerpUnclamped(this, to, val);
-        }
-        public static HSLColor LerpUnclamped(HSLColor from, HSLColor to, float val)
-        {
-            throw new NotImplementedException();
-        }
+        public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {l}>";
+
         // How do I handle operations on HSL and HSV colour space? For that matter, how do I even handle it in RGB colour space? Why did I decide to do this again?
         public static HSLColor operator +(HSLColor left, HSLColor right)
         {
@@ -102,6 +86,16 @@ namespace ColourLib
             throw new NotImplementedException();
         }
         public static HSLColor operator -(HSLColor color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static implicit operator Vector4(HSLColor color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static implicit operator HSLColor(Vector4 color)
         {
             throw new NotImplementedException();
         }
