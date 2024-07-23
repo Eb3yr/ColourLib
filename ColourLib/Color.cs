@@ -151,27 +151,9 @@ namespace ColourLib
         public static bool operator ==(Color left, Color right) => left.Equals(right);
         public static bool operator !=(Color left, Color right) => !left.Equals(right);
 
-        public static implicit operator Vector4(Color color)
-        {
-            return new()
-            {
-                X = color.R,
-                Y = color.G,
-                Z = color.B,
-                W = color.A
-            };
-        }
+        public static implicit operator Vector4(Color color) => new(color.R, color.G, color.B, color.A);
 
-        public static implicit operator Color(Vector4 color)
-        {
-            return new()
-            {
-                R = color.X,
-                G = color.Y,
-                B = color.Z,
-                A = color.W
-            };
-        }
+        public static implicit operator Color(Vector4 color) => new(color.X, color.Y, color.Z, color.W);
         public static explicit operator System.Drawing.Color(Color color)
         {
             return System.Drawing.Color.FromArgb(

@@ -120,15 +120,9 @@ namespace ColourLib
         public static bool operator ==(HSVColor left, HSVColor right) => left.Equals(right);
         public static bool operator !=(HSVColor left, HSVColor right) => !left.Equals(right);
 
-        public static implicit operator Vector4(HSVColor color)
-        {
-            throw new NotImplementedException();
-        }
+        public static implicit operator Vector4(HSVColor color) => new(color.H, color.S, color.V, float.NaN);
 
-        public static implicit operator HSVColor(Vector4 color)
-        {
-            throw new NotImplementedException();
-        }
+        public static implicit operator HSVColor(Vector4 color) => new(color.X, color.Y, color.Z);
         public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), V.GetHashCode());
     }
 }

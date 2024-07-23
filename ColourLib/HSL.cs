@@ -115,15 +115,8 @@ namespace ColourLib
             throw new NotImplementedException();
         }
 
-        public static implicit operator Vector4(HSLColor color)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static implicit operator HSLColor(Vector4 color)
-        {
-            throw new NotImplementedException();
-        }
+        public static implicit operator Vector4(HSLColor color) => new(color.H, color.S, color.L, float.NaN);
+        public static implicit operator HSLColor(Vector4 color) => new(color.X, color.Y, color.Z);
         public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), L.GetHashCode());
     }
 }
