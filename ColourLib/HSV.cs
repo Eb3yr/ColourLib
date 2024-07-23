@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ColourLib
 {
-    public struct HSVColor : IColor<HSVColor>
+    public struct HSVColor : IColorF<HSVColor>
     {
         private float h;
         private float s;
@@ -57,15 +57,17 @@ namespace ColourLib
             this.S = S;
             this.V = V;
         }
-        public H Convert<H>() where H : IColor<H>, new()
+        public bool Equals(HSVColor color) => H == color.H && S == color.S && V == color.V;
+        public override bool Equals(object? color) => color is HSVColor c && color is not null && Equals(c);
+        public HSVColor Difference(HSVColor color) => Difference(this, color);
+        public static HSVColor Difference(HSVColor left, HSVColor right)
         {
-            return Convert<H>(this);
+            right.H = Math.Abs(right.H - left.H);
+            right.S = Math.Abs(right.S - left.S);
+            right.V = Math.Abs(right.V - left.V);
+            return right;
         }
-        public static H Convert<H>(HSVColor HSVColor) where H : IColor<H>, new()
-        {
-            throw new NotImplementedException();
-        }
-        public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {v}>";
+        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {v}>";
         public HSVColor Lerp(HSVColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
         public static HSVColor Lerp(HSVColor from, HSVColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
@@ -115,6 +117,8 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
+        public static bool operator ==(HSVColor left, HSVColor right) => left.Equals(right);
+        public static bool operator !=(HSVColor left, HSVColor right) => !left.Equals(right);
 
         public static implicit operator Vector4(HSVColor color)
         {
@@ -125,5 +129,6 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
+        public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), V.GetHashCode());
     }
 }

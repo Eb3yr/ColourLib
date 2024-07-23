@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ColourLib
 {
-    public struct Color32// : IColor<Color32>   // Need a different interface for byte based colors. Maybe have IColorF and IColorB ? Maybe those both inherit from a generic IColor?
+    public struct Color32 : IColorB<Color32>
     {
         private byte r;
         private byte g;

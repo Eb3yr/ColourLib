@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ColourLib
 {
-    public struct HSLColor : IColor<HSLColor>
+    public struct HSLColor : IColorF<HSLColor>
     {
         private float h;
         private float s;
@@ -58,15 +58,17 @@ namespace ColourLib
             this.S = S;
             this.L = L;
         }
-        public H Convert<H>() where H : IColor<H>, new()
+        public bool Equals(HSLColor color) => H == color.H && S == color.S && L == color.L;
+        public override bool Equals(object? color) => color is HSLColor c && color is not null && Equals(c);
+        public HSLColor Difference(HSLColor color) => Difference(this, color);
+        public static HSLColor Difference(HSLColor left, HSLColor right)
         {
-            return Convert<H>(this);
+            right.H = Math.Abs(right.H - left.H);
+            right.S = Math.Abs(right.S - left.S);
+            right.L = Math.Abs(right.L - left.L);
+            return right;
         }
-        public static H Convert<H>(HSLColor c) where H : IColor<H>, new()
-        {
-            throw new NotImplementedException();
-        }
-        public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {l}>";
+        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {l}>";
         public HSLColor Lerp(HSLColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
         public static HSLColor Lerp(HSLColor from, HSLColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
@@ -91,7 +93,6 @@ namespace ColourLib
                 W = float.NaN
             };
         }
-
         // How do I handle operations on HSL and HSV colour space? For that matter, how do I even handle it in RGB colour space? Why did I decide to do this again?
         public static HSLColor operator +(HSLColor left, HSLColor right)
         {
@@ -123,5 +124,6 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
+        public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), L.GetHashCode());
     }
 }

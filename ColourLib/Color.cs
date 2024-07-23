@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ColourLib
 {
-    public struct Color : IColor<Color>
+    public struct Color : IColorF<Color>
     {
         private float r;
         private float g;
@@ -69,12 +71,18 @@ namespace ColourLib
             this.B = B;
             this.A = A;
         }
-        public H Convert<H>() where H : IColor<H>, new() => Convert<H>(this);
-        public static H Convert<H>(Color color) where H : IColor<H>, new()
+        public bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
+        public override bool Equals(object? color) => color is Color c && color is not null && Equals(c);
+        public Color Difference(Color color) => Difference(this, color);
+        public static Color Difference(Color left, Color right)
         {
-            throw new NotImplementedException();
+            right.R = Math.Abs(right.R - left.R);
+            right.G = Math.Abs(right.G - left.G);
+            right.B = Math.Abs(right.B - left.B);
+            right.A = Math.Abs(right.A - left.A);
+            return right;
         }
-        public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{r}, {g}, {b}, {a}>";
+        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{r}, {g}, {b}, {a}>";
         public Color Lerp(Color colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
         public static Color Lerp(Color from, Color to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
@@ -140,6 +148,8 @@ namespace ColourLib
             color.A = 1f - color.A;
             return color;
         }
+        public static bool operator ==(Color left, Color right) => left.Equals(right);
+        public static bool operator !=(Color left, Color right) => !left.Equals(right);
 
         public static implicit operator Vector4(Color color)
         {
@@ -162,5 +172,36 @@ namespace ColourLib
                 A = color.W
             };
         }
+        public static explicit operator System.Drawing.Color(Color color)
+        {
+            return System.Drawing.Color.FromArgb(
+                (int)Math.Round(color.A * 255f, MidpointRounding.AwayFromZero),
+                (int)Math.Round(color.R * 255f, MidpointRounding.AwayFromZero),
+                (int)Math.Round(color.G * 255f, MidpointRounding.AwayFromZero),
+                (int)Math.Round(color.B * 255f, MidpointRounding.AwayFromZero)
+                );
+        }
+        public static explicit operator Color(System.Drawing.Color color)
+        {
+            return new()
+            {
+                R = 0.003921569f * color.R,
+                g = 0.003921569f * color.G,
+                B = 0.003921569f * color.B,
+                A = 0.003921569f * color.A
+            };
+        }
+
+        public static explicit operator HSVColor(Color color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static explicit operator HSLColor(Color color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetHashCode() => HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());
     }
 }

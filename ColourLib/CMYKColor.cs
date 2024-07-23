@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ColourLib
 {
-    public struct CMYKColor : IColor<CMYKColor>
+    public struct CMYKColor : IColorF<CMYKColor>
     {
         private float c;
         private float m;
@@ -67,16 +67,7 @@ namespace ColourLib
             this.Y = Y;
             this.K = K;
         }
-
-        public H Convert<H>() where H : IColor<H>, new()
-        {
-            throw new NotImplementedException();
-        }
-        public static H Convert<H>(CMYKColor color) where H : IColor<H>, new()
-        {
-            throw new NotImplementedException();
-        }
-        public string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c}, {m}, {y}, {k}>";
+        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c}, {m}, {y}, {k}>";
         public CMYKColor Lerp(CMYKColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
         public static CMYKColor Lerp(CMYKColor from, CMYKColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
@@ -100,6 +91,11 @@ namespace ColourLib
                 Z = (from.y * (1.0f - val)) + (to.y * val),
                 W = (from.k * (1.0f - val)) + (to.k * val)
             };
+        }
+
+        public bool Equals(CMYKColor other)
+        {
+            throw new NotImplementedException();
         }
 
         public static CMYKColor operator +(CMYKColor left, CMYKColor right)
