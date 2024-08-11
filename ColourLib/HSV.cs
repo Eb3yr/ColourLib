@@ -10,7 +10,7 @@ namespace ColourLib
         public float H
             {
             get => h;
-            set { h = Math.Clamp(value, 0f, 1f); }
+            set { h = value % 1f; }
             }
         public float S
             {
