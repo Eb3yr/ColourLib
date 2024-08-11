@@ -9,4 +9,5 @@ HSLColor hslNew = (HSLColor)rgb;
 Console.WriteLine($"new hsv24 = {hslNew.GetHSL24()}");
 Console.ReadLine();
 
-// TODO: Decide between returning a new struct for operators or modifying one passed as an argument. I expect it's insignificant, but it's worth benchmarking, since this differs between Color, HSV and HSL and it'd be nice to keep it consistent.
+// TODO: Reach a consensus on how to handle alpha channels with +-*/. Should it act as every other channel, or take the left argument's alpha channel? 
+// For that matter, I need to set all of those operations to use the properties, not fields, to avoid weird overflow behaviour by either clamping (rgba, sv and sl) or wrap around (hue)

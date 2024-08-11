@@ -162,6 +162,6 @@ namespace ColourLib
 			throw new NotImplementedException();
 		}
 
-		public override int GetHashCode() => HashCode.Combine(C.GetHashCode(), M.GetHashCode(), Y.GetHashCode(), K.GetHashCode());
+		public override readonly int GetHashCode() => HashCode.Combine(c.GetHashCode(), m.GetHashCode(), y.GetHashCode(), k.GetHashCode());
     }
 }

@@ -71,12 +71,59 @@ namespace ColourLib
             this.B = B;
             this.A = A;
         }
+        public Color(string hex)
+        {
+            char[][] str;
+            switch (hex.Length)
+            {
+                case 3:
+                    str = hex.Chunk(1).ToArray();
+                    R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					break;
+
+                case 4:
+					str = hex.Chunk(1).ToArray();
+					R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					A = int.Parse(str[3][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					break;
+
+                case 6:
+					str = hex.Chunk(1).ToArray();
+					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					break;
+
+                case 8:
+					str = hex.Chunk(1).ToArray();
+					str = hex.Chunk(1).ToArray();
+					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					A = int.Parse(new string(str[3]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					break;
+
+                default:
+                    throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
+            }
+        }
         public bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
         public override bool Equals(object? color) => color is Color c && color is not null && Equals(c);
         public float Max() => Max(false);
         public float Min() => Min(false);
 		public float Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
 		public float Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
+        public string ToHex()
+        {
+            Color32 c32 = (Color32)this;
+            return c32.R.ToString("X") + c32.G.ToString("X") + c32.B.ToString("X") + (a == 1f ? "" : c32.A.ToString("X"));
+        }
+        public static string ToHex(Color color) => color.ToHex();
+        public static Color FromHex(string hex) => new(hex);
 		public Color Difference(Color color) => Difference(this, color);
         public static Color Difference(Color left, Color right)
         {
@@ -99,55 +146,76 @@ namespace ColourLib
                 (from.a * (1.0f - val)) + (to.a * val)
             );
         }
-        public static Color operator +(Color left, Color right)
-        {
-            right.R += left.R;
-            right.G += left.G;
-            right.B += left.B;
-            right.A += left.A;
-            return right;
-        }
-        public static Color operator -(Color left, Color right)
-        {
-            right.R -= left.R;
-            right.G -= left.G;
-            right.B -= left.B;
-            right.A -= left.A;
-            return right;
-        }
-        public static Color operator *(Color left, Color right)
-        {
-            right.R *= left.R;
-            right.G *= left.G;
-            right.B *= left.B;
-            right.A *= left.A;
-            return right;
-        }
-        public static Color operator /(Color left, Color right)
-        {
-            right.R /= left.R;
-            right.G /= left.G;
-            right.B /= left.B;
-            right.A /= left.A;
-            return right;
-        }
-        public static Color operator -(Color color)
-        {
-            color.R = 1f - color.R;
-            color.G = 1f - color.G;
-            color.B = 1f - color.B;
-            color.A = 1f - color.A;
-            return color;
-        }
-		public static Color operator +(Color left, float right) => new(left.R + right, left.G + right, left.B + right, left.A + right);
+		public static Color operator +(Color left, Color right)
+		{
+			left.r += right.r;
+			left.g += right.g;
+			left.b += right.b;
+            left.a += right.a;
+			return left;
+		}
+		public static Color operator -(Color left, Color right)
+		{
+			left.r -= right.r;
+			left.g -= right.g;
+			left.b -= right.b;
+            left.a -= right.a;
+			return left;
+		}
+		public static Color operator *(Color left, Color right)
+		{
+			left.r *= right.r;
+			left.g *= right.g;
+			left.b *= right.b;
+            left.a *= right.a;
+			return left;
+		}
+		public static Color operator /(Color left, Color right)
+		{
+			left.r /= right.r;
+			left.g /= right.g;
+			left.b /= right.b;
+            left.a /= right.a;
+			return left;
+		}
+		public static Color operator +(Color left, float right)
+		{
+			left.r += right;
+			left.g += right;
+			left.b += right;
+            left.a += right;
+			return left;
+		}
 		public static Color operator -(Color left, float right)
 		{
-			throw new NotImplementedException();
+			left.r -= right;
+			left.g -= right;
+			left.b -= right;
+            left.a -= right;
+			return left;
 		}
-        public static Color operator *(Color left, float right) => new(left.R * right, left.G * right, left.B * right, left.A * right);  // How should I handle operating on the alpha channel here? Does it matter, since uses not using the alpha channel won't access it anyway?
+		public static Color operator *(Color left, float right)
+		{
+			left.r *= right;
+			left.g *= right;
+			left.b *= right;
+            left.a *= right;
+			return left;
+		}
 		public static Color operator /(Color left, float right)
 		{
-			throw new NotImplementedException();
+			left.r /= right;
+			left.g /= right;
+			left.b /= right;
+            left.a /= right;
+			return left;
+		}
+		public static Color operator -(Color color)
+		{
+			color.r = 1f - color.r;
+			color.g = 1f - color.g;
+			color.b = 1f - color.b;
+			return color;
 		}
 		public static bool operator ==(Color left, Color right) => left.Equals(right);
         public static bool operator !=(Color left, Color right) => !left.Equals(right);
@@ -174,7 +242,6 @@ namespace ColourLib
 			float Xmax = color.Max();   // = V
 			float Xmin = color.Min();   // = V - C
 			float C = Xmax - Xmin;  // Chroma = 2(V - L)
-			float L = (Xmax + Xmin) * 0.5f;
 			float H = 0f;
 			if (Xmax == color.r)
 				H = ((color.g - color.b) / C) % 6;
@@ -207,6 +274,6 @@ namespace ColourLib
             return new(H, S, L);
         }
         public static explicit operator Color32(Color color) => new(color.R, color.G, color.B, color.A);
-		public override int GetHashCode() => HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());
+		public override readonly int GetHashCode() => HashCode.Combine(r.GetHashCode(), g.GetHashCode(), b.GetHashCode(), a.GetHashCode());
     }
 }
