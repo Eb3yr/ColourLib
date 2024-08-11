@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Security.AccessControl;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace ColourLib
 {
@@ -232,12 +223,9 @@ namespace ColourLib
                 (int)Math.Round(color.B * 255f, MidpointRounding.AwayFromZero)
                 );
         }
-        public static explicit operator Color(System.Drawing.Color color)
-        {
-            return new(0.003921569f * color.R, 0.003921569f * color.G, 0.003921569f * color.B, 0.003921569f * color.A);
-        }
+        public static explicit operator Color(System.Drawing.Color color) => new(0.003921569f * color.R, 0.003921569f * color.G, 0.003921569f * color.B, 0.003921569f * color.A);
 
-        public static explicit operator HSVColor(Color color)
+		public static explicit operator HSVColor(Color color)
         {
 			float Xmax = color.Max();   // = V
 			float Xmin = color.Min();   // = V - C
