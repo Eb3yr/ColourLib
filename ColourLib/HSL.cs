@@ -83,37 +83,15 @@ namespace ColourLib
                 (from.l * (1.0f - val)) + (to.l * val)
             );
 		}
-		public static HSLColor operator +(HSLColor left, HSLColor right)
-        {
-            throw new NotImplementedException();
-        }
-        public static HSLColor operator -(HSLColor left, HSLColor right)
-        {
-            throw new NotImplementedException();
-        }
-        public static HSLColor operator *(HSLColor left, HSLColor right)
-        {
-            throw new NotImplementedException();
-        }
-        public static HSLColor operator /(HSLColor left, HSLColor right)
-        {
-            throw new NotImplementedException();
-        }
-		public static HSLColor operator +(HSLColor left, float right) => new(left.H + right, left.S + right, left.L + right);
-		public static HSLColor operator -(HSLColor left, float right)
-		{
-			throw new NotImplementedException();
-		}
-		public static HSLColor operator *(HSLColor left, float right) => new (left.H * right, left.S * right, left.L * right);
-		public static HSLColor operator /(HSLColor left, float right)
-		{
-			throw new NotImplementedException();
-		}
-		public static HSLColor operator -(HSLColor color)
-        {
-            throw new NotImplementedException();
-        }
-
+		public static HSLColor operator +(HSLColor left, HSLColor right) => new(left.H + right.H, left.S + right.S, left.L + right.L);
+		public static HSLColor operator -(HSLColor left, HSLColor right) => new(left.H - right.H, left.S - right.S, left.L - right.L);
+		public static HSLColor operator *(HSLColor left, HSLColor right) => new(left.H * right.H, left.S * right.S, left.L * right.L);
+		public static HSLColor operator /(HSLColor left, HSLColor right) => new(left.H / right.H, left.S / right.S, left.L / right.L);
+		public static HSLColor operator +(HSLColor left, float right) => new(left.H + right, left.S + right, left.l + right);
+		public static HSLColor operator -(HSLColor left, float right) => new(left.H - right, left.S - right, left.l - right);
+		public static HSLColor operator *(HSLColor left, float right) => new(left.H * right, left.S * right, left.l * right);
+		public static HSLColor operator /(HSLColor left, float right) => new(left.h / right, left.s / right, left.l / right);
+		public static HSLColor operator -(HSLColor color) => new(1f - color.h, 1f - color.s, 1f - color.l);
         public static implicit operator Vector4(HSLColor color) => new(color.H, color.S, color.L, float.NaN);
         public static implicit operator HSLColor(Vector4 color) => new(color.X, color.Y, color.Z);
 

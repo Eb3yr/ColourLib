@@ -83,57 +83,22 @@ namespace ColourLib
                 V = (from.v * (1.0f - val)) + (to.v * val)
             };
         }
-        public static HSVColor operator +(HSVColor left, HSVColor right)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static HSVColor operator -(HSVColor left, HSVColor right)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static HSVColor operator *(HSVColor left, HSVColor right)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static HSVColor operator /(HSVColor left, HSVColor right)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static HSVColor operator -(HSVColor color)
-        {
-            throw new NotImplementedException();
-        }
+		public static HSVColor operator +(HSVColor left, HSVColor right) => new(left.H + right.H, left.S + right.S, left.V + right.V);
+		public static HSVColor operator -(HSVColor left, HSVColor right) => new(left.H - right.H, left.S - right.S, left.V - right.V);
+		public static HSVColor operator *(HSVColor left, HSVColor right) => new(left.H * right.H, left.S * right.S, left.V * right.V);
+		public static HSVColor operator /(HSVColor left, HSVColor right) => new(left.H / right.H, left.S / right.S, left.V / right.V);
+		public static HSVColor operator +(HSVColor left, float right) => new(left.H + right, left.S + right, left.v + right);
+		public static HSVColor operator -(HSVColor left, float right) => new(left.H - right, left.S - right, left.v - right);
+		public static HSVColor operator *(HSVColor left, float right) => new(left.H * right, left.S * right, left.v * right);
+		public static HSVColor operator /(HSVColor left, float right) => new(left.h / right, left.s / right, left.v / right);
+        public static HSVColor operator -(HSVColor color) => new(1f - color.h, 1f - color.s, 1f - color.v);
         public static bool operator ==(HSVColor left, HSVColor right) => left.Equals(right);
         public static bool operator !=(HSVColor left, HSVColor right) => !left.Equals(right);
         public static implicit operator Vector3(HSVColor color) => new(color.H, color.S, color.V);
         public static implicit operator Vector4(HSVColor color) => new(color.H, color.S, color.V, float.NaN);
         public static implicit operator HSVColor(Vector3 color) => new(color.X, color.Y, color.Z);
         public static implicit operator HSVColor(Vector4 color) => new(color.X, color.Y, color.Z);
-
-		public static HSVColor operator +(HSVColor left, float right)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static HSVColor operator -(HSVColor left, float right)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static HSVColor operator *(HSVColor left, float right)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static HSVColor operator /(HSVColor left, float right)
-		{
-			throw new NotImplementedException();
-		}
-        public static explicit operator Color(HSVColor color)
+		public static explicit operator Color(HSVColor color)
         {
             float C = color.v * color.s;
             float hPrime = color.h * 6f;
