@@ -1,12 +1,10 @@
 ﻿using ColourLib;
 using System.Numerics;
 
-HSLColor hsl = new(0.6f, 0.8f, 0.5f);
-Console.WriteLine($"hsv24 = {hsl.GetHSL24()}");
-Color rgb = (Color)hsl;
-Console.WriteLine((Color32)rgb);
-HSLColor hslNew = (HSLColor)rgb;
-Console.WriteLine($"new hsv24 = {hslNew.GetHSL24()}");
+HSL24Color one = new(0, 0, 0);
+HSL24Color two = new(10, 10, 10);
+HSL24Color three = one.Lerp(two, 0.5f);
+Console.WriteLine(three);
 Console.ReadLine();
 
 // TODO: Reach a consensus on how to handle alpha channels with +-*/. Should it act as every other channel, or take the left argument's alpha channel? 

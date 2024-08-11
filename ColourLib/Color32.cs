@@ -160,7 +160,7 @@ namespace ColourLib
 		{
 			throw new NotImplementedException();
 		}
-		public string ToString(string? format, IFormatProvider? formatProvider) => $"<{r}, {g}, {b}, {a}>";
+		public string ToString(string? format, IFormatProvider? formatProvider) => $"<{r},{g},{b},{a}>";
 		public Color32 Lerp(Color32 to, float val)
 		{
 			throw new NotImplementedException();
@@ -202,22 +202,22 @@ namespace ColourLib
 			throw new NotImplementedException();
 		}
 
-		public static Color32 operator +(Color32 left, float right)
+		public static Color32 operator +(Color32 left, byte right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static Color32 operator -(Color32 left, float right)
+		public static Color32 operator -(Color32 left, byte right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static Color32 operator *(Color32 left, float right)
+		public static Color32 operator *(Color32 left, byte right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static Color32 operator /(Color32 left, float right)
+		public static Color32 operator /(Color32 left, byte right)
 		{
 			throw new NotImplementedException();
 		}

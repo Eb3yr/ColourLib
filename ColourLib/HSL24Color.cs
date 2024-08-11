@@ -80,101 +80,105 @@ namespace ColourLib
 		}
 		public bool Equals(HSL24Color color) => h == color.h && s == color.s && l == color.l;
 		public override bool Equals(object? color) => color is HSL24Color c && color is not null && Equals(c);
-		public static HSL24Color Difference(HSL24Color from, HSL24Color to)
+		public static HSL24Color Difference(HSL24Color left, HSL24Color right)
 		{
-			throw new NotImplementedException();
+			left.H = (byte)Math.Abs(left.h - right.h);
+			left.S = (byte)Math.Abs(left.s - right.s);
+			left.L = (byte)Math.Abs(left.l - right.l);
+			return left;
 		}
 		public HSL24Color Difference(HSL24Color color)
 		{
-			throw new NotImplementedException();
+			color.H = (byte)Math.Abs(h - color.h);
+			color.S = (byte)Math.Abs(s - color.s);
+			color.L = (byte)Math.Abs(l - color.l);
+			return color;
 		}
-		public HSL24Color Lerp(HSL24Color to, float val)
-		{
-			throw new NotImplementedException();
-		}
-		public static HSL24Color Lerp(HSL24Color from, HSL24Color to, float val)
-		{
-			throw new NotImplementedException();
-		}
-		public HSL24Color LerpUnclamped(HSL24Color to, float val)
-		{
-			throw new NotImplementedException();
-		}
+		public HSL24Color Lerp(HSL24Color to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
+		public static HSL24Color Lerp(HSL24Color from, HSL24Color to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+		public HSL24Color LerpUnclamped(HSL24Color to, float val) => LerpUnclamped(this, to, val);
 		public static HSL24Color LerpUnclamped(HSL24Color from, HSL24Color to, float val)
 		{
-			throw new NotImplementedException();
+			from.H = (byte)Math.Round(from.h * (1.0f - val) + (to.h * val), MidpointRounding.AwayFromZero);
+			from.S = (byte)Math.Round(from.s * (1.0f - val) + (to.s * val), MidpointRounding.AwayFromZero);
+			from.L = (byte)Math.Round(from.l * (1.0f - val) + (to.l * val), MidpointRounding.AwayFromZero);
+			return from;
 		}
-		public byte Max()
-		{
-			throw new NotImplementedException();
-		}
-		public byte Min()
-		{
-			throw new NotImplementedException();
-		}
-		public string ToString(string? format, IFormatProvider? formatProvider)
-		{
-			throw new NotImplementedException();
-		}
+		public byte Max() => Math.Max(h, Math.Max(s, l));
+		public byte Min() => Math.Min(h, Math.Min(s, l));
+		public string ToString(string? format, IFormatProvider? formatProvider) => $"<{h},{s},{l}>";
 		public static HSL24Color operator +(HSL24Color left, HSL24Color right)
 		{
-			throw new NotImplementedException();
+			left.H += right.h;
+			left.S += right.s;
+			left.L += right.l;
+			return left;
 		}
-		public static HSL24Color operator +(HSL24Color left, float right)
+		public static HSL24Color operator +(HSL24Color left, byte right)
 		{
-			throw new NotImplementedException();
-		}
-		public static HSL24Color operator -(HSL24Color color)
-		{
-			throw new NotImplementedException();
+			left.H += right;
+			left.S += right;
+			left.L += right;
+			return left;
 		}
 		public static HSL24Color operator -(HSL24Color left, HSL24Color right)
 		{
-			throw new NotImplementedException();
+			left.H -= right.h;
+			left.S -= right.s;
+			left.L -= right.l;
+			return left;
 		}
-		public static HSL24Color operator -(HSL24Color left, float right)
+		public static HSL24Color operator -(HSL24Color left, byte right)
 		{
-			throw new NotImplementedException();
+			left.H -= right;
+			left.S -= right;
+			left.L -= right;
+			return left;
 		}
-
 		public static HSL24Color operator *(HSL24Color left, HSL24Color right)
 		{
-			throw new NotImplementedException();
+			left.H *= right.h;
+			left.S *= right.s;
+			left.L *= right.l;
+			return left;
 		}
-
-		public static HSL24Color operator *(HSL24Color left, float right)
+		public static HSL24Color operator *(HSL24Color left, byte right)
 		{
-			throw new NotImplementedException();
+			left.H *= right;
+			left.S *= right;
+			left.L *= right;
+			return left;
 		}
-
 		public static HSL24Color operator /(HSL24Color left, HSL24Color right)
 		{
-			throw new NotImplementedException();
+			left.H /= right.h;
+			left.S /= right.s;
+			left.L /= right.l;
+			return left;
 		}
-
-		public static HSL24Color operator /(HSL24Color left, float right)
+		public static HSL24Color operator /(HSL24Color left, byte right)
 		{
-			throw new NotImplementedException();
+			left.H /= right;
+			left.S /= right;
+			left.L /= right;
+			return left;
 		}
-
-		public static bool operator ==(HSL24Color left, HSL24Color right)
+		public static HSL24Color operator -(HSL24Color color)
 		{
-			throw new NotImplementedException();
+			color.h = (byte)(255 - color.h);
+			color.s = (byte)(255 - color.s);
+			color.l = (byte)(255 - color.l);
+			return color;
 		}
-
-		public static bool operator !=(HSL24Color left, HSL24Color right)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static implicit operator Vector4(HSL24Color color)
-		{
-			throw new NotImplementedException();
-		}
-
+		public static bool operator ==(HSL24Color left, HSL24Color right) => left.Equals(right);
+		public static bool operator !=(HSL24Color left, HSL24Color right) => !left.Equals(right);
+		public static implicit operator Vector4(HSL24Color color) => new(color.h, color.s, color.l, float.NaN);
 		public static implicit operator HSL24Color(Vector4 color)
 		{
-			throw new NotImplementedException();
+			return new(
+				(byte)Math.Round(color.X, MidpointRounding.AwayFromZero),
+				(byte)Math.Round(color.Y, MidpointRounding.AwayFromZero),
+				(byte)Math.Round(color.Z, MidpointRounding.AwayFromZero));
 		}
 		public static explicit operator HSLColor(HSL24Color color) => new(color.h / 255f, color.s / 255f, color.l / 255f);
 		public override int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());

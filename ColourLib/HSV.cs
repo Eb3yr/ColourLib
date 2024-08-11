@@ -65,7 +65,7 @@ namespace ColourLib
             right.V = Math.Abs(right.V - left.V);
             return right;
         }
-        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {v}>";
+        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h},{s},{v}>";
         public HSVColor Lerp(HSVColor to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
         public static HSVColor Lerp(HSVColor from, HSVColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
         public HSVColor LerpUnclamped(HSVColor to, float val) => LerpUnclamped(this, to, val);

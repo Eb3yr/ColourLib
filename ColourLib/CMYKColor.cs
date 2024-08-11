@@ -74,7 +74,7 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
-        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c}, {m}, {y}, {k}>";
+        public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c},{m},{y},{k}>";
         public CMYKColor Lerp(CMYKColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
         public static CMYKColor Lerp(CMYKColor from, CMYKColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
