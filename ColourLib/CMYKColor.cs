@@ -70,7 +70,9 @@ namespace ColourLib
         }
         public bool Equals(CMYKColor color) => C == color.C && M == color.M && Y == color.Y && K == color.K;
         public override bool Equals(object? color) => color is CMYKColor c && color is not null && Equals(c);
-        public CMYKColor Difference(CMYKColor color)
+        public float Max() => Math.Max(c, Math.Max(m, Math.Max(y, k)));
+		public float Min() => Math.Min(c, Math.Min(m, Math.Min(y, k)));
+		public CMYKColor Difference(CMYKColor color)
         {
             throw new NotImplementedException();
         }

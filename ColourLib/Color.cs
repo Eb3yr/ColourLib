@@ -73,7 +73,11 @@ namespace ColourLib
         }
         public bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
         public override bool Equals(object? color) => color is Color c && color is not null && Equals(c);
-        public Color Difference(Color color) => Difference(this, color);
+        public float Max() => Max(false);
+        public float Min() => Min(false);
+		public float Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
+		public float Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
+		public Color Difference(Color color) => Difference(this, color);
         public static Color Difference(Color left, Color right)
         {
             right.R = Math.Abs(right.R - left.R);
@@ -167,12 +171,40 @@ namespace ColourLib
 
         public static explicit operator HSVColor(Color color)
         {
-            throw new NotImplementedException();
+			float Xmax = color.Max();   // = V
+			float Xmin = color.Min();   // = V - C
+			float C = Xmax - Xmin;  // Chroma = 2(V - L)
+			float L = (Xmax + Xmin) * 0.5f;
+			float H = 0f;
+			if (Xmax == color.r)
+				H = ((color.g - color.b) / C) % 6;
+			else if (Xmax == color.g)
+				H = (color.b - color.r) / C + 2;
+			else if (Xmax == color.b)
+				H = (color.r - color.g) / C + 4;
+
+			H /= 6f;
+            float S = Xmax == 0 ? 0f : C / Xmax;
+            return new(H, S, Xmax);
         }
 
         public static explicit operator HSLColor(Color color)
         {
-            throw new NotImplementedException();
+            float Xmax = color.Max();   // = V
+            float Xmin = color.Min();   // = V - C
+            float C = Xmax - Xmin;  // Chroma = 2(V - L)
+            float L = (Xmax + Xmin) * 0.5f;
+            float H = 0f;
+            if (Xmax == color.r)
+                H = ((color.g - color.b) / C) % 6;
+            else if (Xmax == color.g)
+                H = (color.b - color.r) / C + 2;
+            else if (Xmax == color.b)
+                H = (color.r - color.g) / C + 4;
+
+            H /= 6f;
+            float S = L == 0 || L == 1 ? 0f : (Xmax - L) / Math.Min(L, 1f - L);
+            return new(H, S, L);
         }
         public static explicit operator Color32(Color color) => new(color.R, color.G, color.B, color.A);
 		public override int GetHashCode() => HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());

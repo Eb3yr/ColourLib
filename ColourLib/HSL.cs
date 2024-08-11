@@ -61,6 +61,8 @@ namespace ColourLib
         public Vector3 GetHSL24() => new(h * 360f, s * 100f, l * 100f); // Temp until I implement a HSLColor32 class
         public bool Equals(HSLColor color) => H == color.H && S == color.S && L == color.L;
         public override bool Equals(object? color) => color is HSLColor c && color is not null && Equals(c);
+		public float Max() => Math.Max(h, Math.Max(s, l)); 
+        public float Min() => Math.Min(h, Math.Min(s, l));
         public HSLColor Difference(HSLColor color) => Difference(this, color);
         public static HSLColor Difference(HSLColor left, HSLColor right)
         {
@@ -118,10 +120,10 @@ namespace ColourLib
         public static bool operator ==(HSLColor left, HSLColor right) => left.Equals(right);
 
         public static bool operator !=(HSLColor left, HSLColor right) => !left.Equals(right);
-        public static explicit operator Color(HSLColor hsl)
+        public static explicit operator Color(HSLColor color)
         {
-            float C = (1 - Math.Abs(2 * hsl.L - 1)) * hsl.S;
-            float hPrime = hsl.H * 6;
+            float C = (1 - Math.Abs(2 * color.l - 1)) * color.s;
+            float hPrime = color.h * 6;
             float X = C * (1 - Math.Abs(hPrime % 2 - 1));
 			Color rgb1 = hPrime switch
 			{
@@ -133,10 +135,14 @@ namespace ColourLib
 				< 6 => new(C, 0, X),
 				_ => throw new ArgumentOutOfRangeException($"hPrime = {hPrime} exceeds the range [0, 6] in HSLColor.cs")
 			};
-			rgb1 += hsl.L - 0.5f * C;
+			rgb1 += color.l - 0.5f * C;
 			rgb1.A = 1f;
 			return rgb1;
 		}
+        public static explicit operator HSVColor(HSLColor hsl)
+        {
+            throw new NotImplementedException();
+        }
         public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), L.GetHashCode());
 
 		

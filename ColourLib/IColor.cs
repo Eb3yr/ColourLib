@@ -13,11 +13,15 @@ namespace ColourLib
     public interface IColorB<T> : IColor<T> where T : IColor<T>
     {
         public abstract byte this[int i] { get; set; }
-    }
+		public abstract byte Max();
+		public abstract byte Min();
+	}
     public interface IColorF<T> : IColor<T> where T : IColor<T>
     {
         public abstract float this[int i] { get; set; }
-    }
+		public abstract float Max();
+		public abstract float Min();
+	}
     public interface IColor<T> : IFormattable, IEquatable<T> where T : IColor<T>
     {
         public abstract T Difference(T color);

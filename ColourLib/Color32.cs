@@ -75,6 +75,10 @@ namespace ColourLib
 			B = (byte)Math.Round(b * 255f, MidpointRounding.AwayFromZero);
 			A = (byte)Math.Round(a * 255f, MidpointRounding.AwayFromZero);
 		}
+		public byte Max() => Max(false);
+		public byte Min() => Min(false);
+		public byte Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
+		public byte Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
 		public Color32 Difference(Color32 color)
 		{
 			throw new NotImplementedException();

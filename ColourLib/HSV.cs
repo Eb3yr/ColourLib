@@ -57,9 +57,12 @@ namespace ColourLib
             this.S = S;
             this.V = V;
         }
-        public bool Equals(HSVColor color) => H == color.H && S == color.S && V == color.V;
+		public Vector3 GetHSV24() => new(h * 360f, s * 100f, v * 100f); // Temp until I implement a HSVColor32 class
+		public bool Equals(HSVColor color) => H == color.H && S == color.S && V == color.V;
         public override bool Equals(object? color) => color is HSVColor c && color is not null && Equals(c);
-        public HSVColor Difference(HSVColor color) => Difference(this, color);
+		public float Max() => Math.Max(h, Math.Max(s, v)); 
+        public float Min() => Math.Min(h, Math.Min(s, v));
+		public HSVColor Difference(HSVColor color) => Difference(this, color);
         public static HSVColor Difference(HSVColor left, HSVColor right)
         {
             right.H = Math.Abs(right.H - left.H);
@@ -130,7 +133,29 @@ namespace ColourLib
 		{
 			throw new NotImplementedException();
 		}
-
+        public static explicit operator Color(HSVColor color)
+        {
+            float C = color.v * color.s;
+            float hPrime = color.h * 6f;
+            float X = C * (1 - Math.Abs(hPrime % 2 - 1));
+            Color rgb = hPrime switch
+            {
+				< 1 => new(C, X, 0),
+				< 2 => new(X, C, 0),
+				< 3 => new(0, C, X),
+				< 4 => new(0, X, C),
+				< 5 => new(X, 0, C),
+				< 6 => new(C, 0, X),
+				_ => throw new ArgumentOutOfRangeException($"hPrime = {hPrime} exceeds the range [0, 6] in HSVColor.cs")
+			};
+            rgb += color.v - C;
+            rgb.A = 1f;
+			return rgb;
+        }
+        public static explicit operator HSLColor(HSVColor color)
+        {
+            throw new NotImplementedException();
+        }
 		public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), V.GetHashCode());
     }
 }
