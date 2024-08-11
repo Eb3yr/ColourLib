@@ -75,6 +75,13 @@ namespace ColourLib
                 }
             }
         }
+		public Color32(byte r, byte g, byte b, byte a = 255)
+		{
+			this.r = r;
+			this.g = g;
+			this.b = b;
+			this.a = a;
+		}
 		public Color32(int r, int g, int b, int a = 255)
 		{
 			R32 = r;

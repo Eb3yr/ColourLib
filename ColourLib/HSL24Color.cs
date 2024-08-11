@@ -66,6 +66,18 @@ namespace ColourLib
 				}
 			}
 		}
+		public HSL24Color(byte h, byte s, byte l)
+		{
+			this.h = h;
+			this.s = s;
+			this.l = l;
+		}
+		public HSL24Color(int h, int s, int l)
+		{
+			H32 = h;
+			S32 = s;
+			L32 = l;
+		}
 		public bool Equals(HSL24Color color) => h == color.h && s == color.s && l == color.l;
 		public override bool Equals(object? color) => color is HSL24Color c && color is not null && Equals(c);
 		public static HSL24Color Difference(HSL24Color from, HSL24Color to)
@@ -164,7 +176,7 @@ namespace ColourLib
 		{
 			throw new NotImplementedException();
 		}
-		public static explicit operator HSLColor(HSL24Color color) => new(color.h / 256f, color.s / 256f, color.l / 256f);
+		public static explicit operator HSLColor(HSL24Color color) => new(color.h / 255f, color.s / 255f, color.l / 255f);
 		public override int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}
 }

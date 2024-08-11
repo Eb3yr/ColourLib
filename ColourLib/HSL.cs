@@ -140,13 +140,11 @@ namespace ColourLib
             color.L = 1f - color.L;
             return color;
         }
-        public static implicit operator Vector4(HSLColor color) => new(color.H, color.S, color.L, float.NaN);
-        public static implicit operator HSLColor(Vector4 color) => new(color.X, color.Y, color.Z);
-
         public static bool operator ==(HSLColor left, HSLColor right) => left.Equals(right);
-
         public static bool operator !=(HSLColor left, HSLColor right) => !left.Equals(right);
-        public static explicit operator Color(HSLColor color)
+		public static implicit operator Vector4(HSLColor color) => new(color.H, color.S, color.L, float.NaN);
+		public static implicit operator HSLColor(Vector4 color) => new(color.X, color.Y, color.Z);
+		public static explicit operator Color(HSLColor color)
         {
             float C = (1 - Math.Abs(2 * color.l - 1)) * color.s;
             float hPrime = color.h * 6;
@@ -170,6 +168,13 @@ namespace ColourLib
             float V = color.l + color.S * Math.Min(color.l, 1f - color.l);
             float S = V == 0f ? 0f : 2f * (1f - color.l / V);
             return new(color.h, S, V);
+        }
+        public static explicit operator HSL24Color(HSLColor color)
+        {
+            return new(
+                (byte)Math.Round(color.h, MidpointRounding.AwayFromZero),
+                (byte)Math.Round(color.s, MidpointRounding.AwayFromZero),
+                (byte)Math.Round(color.l, MidpointRounding.AwayFromZero));
         }
         public override readonly int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}

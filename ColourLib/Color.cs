@@ -69,33 +69,33 @@ namespace ColourLib
             {
                 case 3:
                     str = hex.Chunk(1).ToArray();
-                    R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
-					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
-					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+                    R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
+					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
+					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
 					break;
 
                 case 4:
 					str = hex.Chunk(1).ToArray();
-					R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
-					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
-					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
-					A = int.Parse(str[3][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 256f;
+					R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
+					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
+					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
+					A = int.Parse(str[3][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
 					break;
 
                 case 6:
 					str = hex.Chunk(1).ToArray();
-					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 256f;
-					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 256f;
-					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 255f;
+					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 255f;
+					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 255f;
 					break;
 
                 case 8:
 					str = hex.Chunk(1).ToArray();
 					str = hex.Chunk(1).ToArray();
-					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 256f;
-					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 256f;
-					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 256f;
-					A = int.Parse(new string(str[3]), System.Globalization.NumberStyles.HexNumber) / 256f;
+					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 255f;
+					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 255f;
+					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 255f;
+					A = int.Parse(new string(str[3]), System.Globalization.NumberStyles.HexNumber) / 255f;
 					break;
 
                 default:
@@ -224,7 +224,7 @@ namespace ColourLib
                 (int)Math.Round(color.B * 255f, MidpointRounding.AwayFromZero)
                 );
         }
-        public static explicit operator Color(System.Drawing.Color color) => new(0.003921569f * color.R, 0.003921569f * color.G, 0.003921569f * color.B, 0.003921569f * color.A);
+        public static explicit operator Color(System.Drawing.Color color) => new(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
 
 		public static explicit operator HSVColor(Color color)
         {
