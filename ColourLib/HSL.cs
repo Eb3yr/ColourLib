@@ -139,9 +139,11 @@ namespace ColourLib
 			rgb1.A = 1f;
 			return rgb1;
 		}
-        public static explicit operator HSVColor(HSLColor hsl)
+        public static explicit operator HSVColor(HSLColor color)
         {
-            throw new NotImplementedException();
+            float V = color.l + color.S * Math.Min(color.l, 1f - color.l);
+            float S = V == 0f ? 0f : 2f * (1f - color.l / V);
+            return new(color.h, S, V);
         }
         public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), L.GetHashCode());
 

@@ -154,7 +154,9 @@ namespace ColourLib
         }
         public static explicit operator HSLColor(HSVColor color)
         {
-            throw new NotImplementedException();
+            float L = color.v * (1f - 0.5f * color.S);
+            float S = L == 0f || L == 1f ? 0f : (color.v - L) / Math.Min(L, 1f - L);
+            return new(color.h, S, L);
         }
 		public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), V.GetHashCode());
     }
