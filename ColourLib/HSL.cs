@@ -58,6 +58,7 @@ namespace ColourLib
             this.S = S;
             this.L = L;
         }
+        public Vector3 GetHSL24() => new(h * 360f, s * 100f, l * 100f); // Temp until I implement a HSLColor32 class
         public bool Equals(HSLColor color) => H == color.H && S == color.S && L == color.L;
         public override bool Equals(object? color) => color is HSLColor c && color is not null && Equals(c);
         public HSLColor Difference(HSLColor color) => Difference(this, color);
@@ -69,32 +70,18 @@ namespace ColourLib
             return right;
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {l}>";
-        public HSLColor Lerp(HSLColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public HSLColor Lerp(HSLColor to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
         public static HSLColor Lerp(HSLColor from, HSLColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-
-        public Vector4 LerpUnclamped(HSLColor to, float val)
-        {
-            return new()
-            {
-                X = (h * (1.0f - val)) + (to.h * val),
-                Y = (s * (1.0f - val)) + (to.s * val),
-                Z = (l * (1.0f - val)) + (to.l * val),
-                W = float.NaN
-            };
-        }
-
-        public static Vector4 LerpUnclamped(HSLColor from, HSLColor to, float val)
-        {
-            return new()
-            {
-                X = (from.h * (1.0f - val)) + (to.h * val),
-                Y = (from.s * (1.0f - val)) + (to.s * val),
-                Z = (from.l * (1.0f - val)) + (to.l * val),
-                W = float.NaN
-            };
-        }
-        // How do I handle operations on HSL and HSV colour space? For that matter, how do I even handle it in RGB colour space? Why did I decide to do this again?
-        public static HSLColor operator +(HSLColor left, HSLColor right)
+        public HSLColor LerpUnclamped(HSLColor to, float val) => LerpUnclamped(this, to, val);
+		public static HSLColor LerpUnclamped(HSLColor from, HSLColor to, float val)
+		{
+            return new(
+                (from.h * (1.0f - val)) + (to.h * val),
+                (from.s * (1.0f - val)) + (to.s * val),
+                (from.l * (1.0f - val)) + (to.l * val)
+            );
+		}
+		public static HSLColor operator +(HSLColor left, HSLColor right)
         {
             throw new NotImplementedException();
         }
@@ -110,13 +97,48 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
-        public static HSLColor operator -(HSLColor color)
+		public static HSLColor operator +(HSLColor left, float right) => new(left.H + right, left.S + right, left.L + right);
+		public static HSLColor operator -(HSLColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+		public static HSLColor operator *(HSLColor left, float right) => new (left.H * right, left.S * right, left.L * right);
+		public static HSLColor operator /(HSLColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+		public static HSLColor operator -(HSLColor color)
         {
             throw new NotImplementedException();
         }
 
         public static implicit operator Vector4(HSLColor color) => new(color.H, color.S, color.L, float.NaN);
         public static implicit operator HSLColor(Vector4 color) => new(color.X, color.Y, color.Z);
+
+        public static bool operator ==(HSLColor left, HSLColor right) => left.Equals(right);
+
+        public static bool operator !=(HSLColor left, HSLColor right) => !left.Equals(right);
+        public static explicit operator Color(HSLColor hsl)
+        {
+            float C = (1 - Math.Abs(2 * hsl.L - 1)) * hsl.S;
+            float hPrime = hsl.H * 6;
+            float X = C * (1 - Math.Abs(hPrime % 2 - 1));
+			Color rgb1 = hPrime switch
+			{
+				< 1 => new(C, X, 0),
+				< 2 => new(X, C, 0),
+				< 3 => new(0, C, X),
+				< 4 => new(0, X, C),
+				< 5 => new(X, 0, C),
+				< 6 => new(C, 0, X),
+				_ => throw new ArgumentOutOfRangeException($"hPrime = {hPrime} exceeds the range [0, 6] in HSLColor.cs")
+			};
+			rgb1 += hsl.L - 0.5f * C;
+			rgb1.A = 1f;
+			return rgb1;
+		}
         public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), L.GetHashCode());
-    }
+
+		
+	}
 }

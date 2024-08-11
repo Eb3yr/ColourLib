@@ -83,31 +83,18 @@ namespace ColourLib
             return right;
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{r}, {g}, {b}, {a}>";
-        public Color Lerp(Color colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public Color Lerp(Color colorTo, float val) => LerpUnclamped(this, colorTo, Math.Clamp(val, 0f, 1f));
         public static Color Lerp(Color from, Color to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-
-        public Vector4 LerpUnclamped(Color to, float val)
+        public Color LerpUnclamped(Color to, float val) => LerpUnclamped(this, to, val);
+        public static Color LerpUnclamped(Color from, Color to, float val)
         {
-            return new()
-            {
-                X = (r * (1.0f - val)) + (to.r * val),
-                Y = (g * (1.0f - val)) + (to.g * val),
-                Z = (b * (1.0f - val)) + (to.b * val),
-                W = (a * (1.0f - val)) + (to.a * val)
-            };
+            return new(
+                (from.r * (1.0f - val)) + (to.r * val),
+                (from.g * (1.0f - val)) + (to.g * val),
+                (from.b * (1.0f - val)) + (to.b * val),
+                (from.a * (1.0f - val)) + (to.a * val)
+            );
         }
-
-        public static Vector4 LerpUnclamped(Color from, Color to, float val)
-        {
-            return new()
-            {
-                X = (from.r * (1.0f - val)) + (to.r * val),
-                Y = (from.g * (1.0f - val)) + (to.g * val),
-                Z = (from.b * (1.0f - val)) + (to.b * val),
-                W = (from.a * (1.0f - val)) + (to.a * val)
-            };
-        }
-
         public static Color operator +(Color left, Color right)
         {
             right.R += left.R;
@@ -148,7 +135,17 @@ namespace ColourLib
             color.A = 1f - color.A;
             return color;
         }
-        public static bool operator ==(Color left, Color right) => left.Equals(right);
+		public static Color operator +(Color left, float right) => new(left.R + right, left.G + right, left.B + right, left.A + right);
+		public static Color operator -(Color left, float right)
+		{
+			throw new NotImplementedException();
+		}
+        public static Color operator *(Color left, float right) => new(left.R * right, left.G * right, left.B * right, left.A * right);  // How should I handle operating on the alpha channel here? Does it matter, since uses not using the alpha channel won't access it anyway?
+		public static Color operator /(Color left, float right)
+		{
+			throw new NotImplementedException();
+		}
+		public static bool operator ==(Color left, Color right) => left.Equals(right);
         public static bool operator !=(Color left, Color right) => !left.Equals(right);
 
         public static implicit operator Vector4(Color color) => new(color.R, color.G, color.B, color.A);
@@ -165,13 +162,7 @@ namespace ColourLib
         }
         public static explicit operator Color(System.Drawing.Color color)
         {
-            return new()
-            {
-                R = 0.003921569f * color.R,
-                g = 0.003921569f * color.G,
-                B = 0.003921569f * color.B,
-                A = 0.003921569f * color.A
-            };
+            return new(0.003921569f * color.R, 0.003921569f * color.G, 0.003921569f * color.B, 0.003921569f * color.A);
         }
 
         public static explicit operator HSVColor(Color color)
@@ -183,7 +174,7 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
-
-        public override int GetHashCode() => HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());
+        public static explicit operator Color32(Color color) => new(color.R, color.G, color.B, color.A);
+		public override int GetHashCode() => HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());
     }
 }

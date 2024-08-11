@@ -1,8 +1,9 @@
 ﻿using ColourLib;
 using System.Numerics;
-Color c1 = new(0.9f, 0.9f, 0.9f);
-Color c2 = new(1f, 1f, 1f);
-Color c3 = Color.LerpUnclamped(c1, c2, -0.5f);
-Console.WriteLine(c3.ToString());
+
+HSLColor hsl = new(0.6f, 0.8f, 0.5f);
+Console.WriteLine($"hsl24 = {hsl.GetHSL24()}");
+Color rgb = (Color)hsl;
+Console.WriteLine((Color32)rgb);
 Console.ReadLine();
 

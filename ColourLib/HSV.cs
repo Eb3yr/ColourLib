@@ -68,31 +68,18 @@ namespace ColourLib
             return right;
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h}, {s}, {v}>";
-        public HSVColor Lerp(HSVColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public HSVColor Lerp(HSVColor to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
         public static HSVColor Lerp(HSVColor from, HSVColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-
-        public Vector4 LerpUnclamped(HSVColor to, float val)
+        public HSVColor LerpUnclamped(HSVColor to, float val) => LerpUnclamped(this, to, val);
+        public static HSVColor LerpUnclamped(HSVColor from, HSVColor to, float val)
         {
             return new()
             {
-                X = (h * (1.0f - val)) + (to.h * val),
-                Y = (s * (1.0f - val)) + (to.s * val),
-                Z = (v * (1.0f - val)) + (to.v * val),
-                W = float.NaN
+                H = (from.h * (1.0f - val)) + (to.h * val),
+                S = (from.s * (1.0f - val)) + (to.s * val),
+                V = (from.v * (1.0f - val)) + (to.v * val)
             };
         }
-
-        public static Vector4 LerpUnclamped(HSVColor from, HSVColor to, float val)
-        {
-            return new()
-            {
-                X = (from.h * (1.0f - val)) + (to.h * val),
-                Y = (from.s * (1.0f - val)) + (to.s * val),
-                Z = (from.v * (1.0f - val)) + (to.v * val),
-                W = float.NaN
-            };
-        }
-
         public static HSVColor operator +(HSVColor left, HSVColor right)
         {
             throw new NotImplementedException();
@@ -119,10 +106,31 @@ namespace ColourLib
         }
         public static bool operator ==(HSVColor left, HSVColor right) => left.Equals(right);
         public static bool operator !=(HSVColor left, HSVColor right) => !left.Equals(right);
-
+        public static implicit operator Vector3(HSVColor color) => new(color.H, color.S, color.V);
         public static implicit operator Vector4(HSVColor color) => new(color.H, color.S, color.V, float.NaN);
-
+        public static implicit operator HSVColor(Vector3 color) => new(color.X, color.Y, color.Z);
         public static implicit operator HSVColor(Vector4 color) => new(color.X, color.Y, color.Z);
-        public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), V.GetHashCode());
+
+		public static HSVColor operator +(HSVColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static HSVColor operator -(HSVColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static HSVColor operator *(HSVColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static HSVColor operator /(HSVColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override int GetHashCode() => HashCode.Combine(H.GetHashCode(), S.GetHashCode(), V.GetHashCode());
     }
 }

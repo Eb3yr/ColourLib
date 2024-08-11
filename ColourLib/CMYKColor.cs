@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -67,35 +68,31 @@ namespace ColourLib
             this.Y = Y;
             this.K = K;
         }
+        public bool Equals(CMYKColor color) => C == color.C && M == color.M && Y == color.Y && K == color.K;
+        public override bool Equals(object? color) => color is CMYKColor c && color is not null && Equals(c);
+        public CMYKColor Difference(CMYKColor color)
+        {
+            throw new NotImplementedException();
+        }
+        public static CMYKColor Difference(CMYKColor left, CMYKColor right)
+        {
+            throw new NotImplementedException();
+        }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c}, {m}, {y}, {k}>";
         public CMYKColor Lerp(CMYKColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
         public static CMYKColor Lerp(CMYKColor from, CMYKColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
-        public Vector4 LerpUnclamped(CMYKColor to, float val)
+        public CMYKColor LerpUnclamped(CMYKColor to, float val) => LerpUnclamped(this, to, val);
+
+        public static CMYKColor LerpUnclamped(CMYKColor from, CMYKColor to, float val)
         {
             return new()
             {
-                X = (c * (1.0f - val)) + (to.c * val),
-                Y = (m * (1.0f - val)) + (to.m * val),
-                Z = (y * (1.0f - val)) + (to.y * val),
-                W = (k * (1.0f - val)) + (to.k * val)
+                C = (from.c * (1.0f - val)) + (to.c * val),
+                M = (from.m * (1.0f - val)) + (to.m * val),
+                Y = (from.y * (1.0f - val)) + (to.y * val),
+                K = (from.k * (1.0f - val)) + (to.k * val)
             };
-        }
-
-        public static Vector4 LerpUnclamped(CMYKColor from, CMYKColor to, float val)
-        {
-            return new()
-            {
-                X = (from.c * (1.0f - val)) + (to.c * val),
-                Y = (from.m * (1.0f - val)) + (to.m * val),
-                Z = (from.y * (1.0f - val)) + (to.y * val),
-                W = (from.k * (1.0f - val)) + (to.k * val)
-            };
-        }
-
-        public bool Equals(CMYKColor other)
-        {
-            throw new NotImplementedException();
         }
 
         public static CMYKColor operator +(CMYKColor left, CMYKColor right)
@@ -132,5 +129,37 @@ namespace ColourLib
         {
             throw new NotImplementedException();
         }
+
+		public static CMYKColor operator +(CMYKColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static CMYKColor operator -(CMYKColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static CMYKColor operator *(CMYKColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static CMYKColor operator /(CMYKColor left, float right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static bool operator ==(CMYKColor left, CMYKColor right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static bool operator !=(CMYKColor left, CMYKColor right)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override int GetHashCode() => HashCode.Combine(C.GetHashCode(), M.GetHashCode(), Y.GetHashCode(), K.GetHashCode());
     }
 }
