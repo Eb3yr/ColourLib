@@ -23,7 +23,6 @@ namespace ColourLib
         public abstract T LerpUnclamped(T to, float val);
         public static abstract T LerpUnclamped(T from, T to, float val);
         //public static abstract bool InverseLerp(T left, T right, T val, out float lerpVal); // Returns false if val is not along the line between left and right. 
-        // Float overloads for arithmetic, where the float acts as float = R = G = B = A ?
         public static abstract T operator +(T left, T right);
         public static abstract T operator -(T left, T right);
         public static abstract T operator *(T left, T right);

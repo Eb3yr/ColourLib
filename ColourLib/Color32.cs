@@ -143,7 +143,7 @@ namespace ColourLib
 		}
 		public static Color32 FromHex(string hex) => new(hex);
 		public bool Equals(Color32 color) => color.R == r && color.G == g && color.B == b && color.A == a;
-		public override bool Equals(object? color) => color is Color32 c && Equals(c);
+		public override bool Equals(object? color) => color is Color32 c && color is not null && Equals(c);
 		public Color32 Difference(Color32 color)
 		{
 			throw new NotImplementedException();

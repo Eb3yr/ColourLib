@@ -80,65 +80,65 @@ namespace ColourLib
         }
 		public static HSVColor operator +(HSVColor left, HSVColor right)
 		{
-			left.h += right.h;
-			left.s += right.s;
-			left.v += right.v;
+			left.H += right.H;
+			left.S += right.S;
+			left.V += right.V;
 			return left;
 		}
 		public static HSVColor operator -(HSVColor left, HSVColor right)
 		{
-			left.h -= right.h;
-			left.s -= right.s;
-			left.v -= right.v;
+			left.H -= right.H;
+			left.S -= right.S;
+			left.V -= right.V;
 			return left;
 		}
 		public static HSVColor operator *(HSVColor left, HSVColor right)
 		{
-			left.h *= right.h;
-			left.s *= right.s;
-			left.v *= right.v;
+			left.H *= right.H;
+			left.S *= right.S;
+			left.V *= right.V;
 			return left;
 		}
 		public static HSVColor operator /(HSVColor left, HSVColor right)
 		{
-			left.h /= right.h;
-			left.s /= right.s;
-			left.v /= right.v;
+			left.H /= right.H;
+			left.S /= right.S;
+			left.V /= right.V;
 			return left;
 		}
 		public static HSVColor operator +(HSVColor left, float right)
 		{
-			left.h += right;
-			left.s += right;
-			left.v += right;
+			left.H += right;
+			left.S += right;
+			left.V += right;
 			return left;
 		}
 		public static HSVColor operator -(HSVColor left, float right)
 		{
-			left.h -= right;
-			left.s -= right;
-			left.v -= right;
+			left.H -= right;
+			left.S -= right;
+			left.V -= right;
 			return left;
 		}
 		public static HSVColor operator *(HSVColor left, float right)
 		{
-			left.h *= right;
-			left.s *= right;
-			left.v *= right;
+			left.H *= right;
+			left.S *= right;
+			left.V *= right;
 			return left;
 		}
 		public static HSVColor operator /(HSVColor left, float right)
 		{
-			left.h /= right;
-			left.s /= right;
-			left.v /= right;
+			left.H /= right;
+			left.S /= right;
+			left.V /= right;
 			return left;
 		}
 		public static HSVColor operator -(HSVColor color)
 		{
-			color.h = 1f - color.h;
-			color.s = 1f - color.s;
-			color.v = 1f - color.v;
+			color.H = 1f - color.H;
+			color.S = 1f - color.S;
+			color.V = 1f - color.V;
 			return color;
 		}
 		public static bool operator ==(HSVColor left, HSVColor right) => left.Equals(right);

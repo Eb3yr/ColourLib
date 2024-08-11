@@ -79,65 +79,65 @@ namespace ColourLib
 		}
         public static HSLColor operator +(HSLColor left, HSLColor right)
         {
-            left.h += right.h;
-            left.s += right.s;
-            left.l += right.l;
+            left.H += right.H;
+            left.S += right.S;
+            left.L += right.L;
             return left;
         }
         public static HSLColor operator -(HSLColor left, HSLColor right)
         {
-            left.h -= right.h;
-            left.s -= right.s;
-            left.l -= right.l;
+            left.H -= right.H;
+            left.S -= right.S;
+            left.L -= right.L;
             return left;
         }
         public static HSLColor operator *(HSLColor left, HSLColor right)
         {
-            left.h *= right.h;
-            left.s *= right.s;
-            left.l *= right.l;
+            left.H *= right.H;
+            left.S *= right.S;
+            left.L *= right.L;
             return left;
         }
         public static HSLColor operator /(HSLColor left, HSLColor right)
         {
-            left.h /= right.h;
-            left.s /= right.s;
-            left.l /= right.l;
+            left.H /= right.H;
+            left.S /= right.S;
+            left.L /= right.L;
             return left;
         }
         public static HSLColor operator +(HSLColor left, float right)
         { 
-            left.h += right;
-            left.s += right;
-            left.l += right;
+            left.H += right;
+            left.S += right;
+            left.L += right;
             return left;
         }
 		public static HSLColor operator -(HSLColor left, float right)
         {
-            left.h -= right;
-            left.s -= right;
-            left.l -= right;
+            left.H -= right;
+            left.S -= right;
+            left.L -= right;
             return left;
         }
 		public static HSLColor operator *(HSLColor left, float right)
         {
-            left.h *= right;
-            left.s *= right;
-            left.l *= right;
+            left.H *= right;
+            left.S *= right;
+            left.L *= right;
             return left;
         }
 		public static HSLColor operator /(HSLColor left, float right)
         { 
-            left.h /= right;
-            left.s /= right;
-            left.l /= right;
+            left.H /= right;
+            left.S /= right;
+            left.L /= right;
             return left;
         }
 		public static HSLColor operator -(HSLColor color)
         {
-            color.h = 1f - color.h;
-            color.s = 1f - color.s;
-            color.l = 1f - color.l;
+            color.H = 1f - color.H;
+            color.S = 1f - color.S;
+            color.L = 1f - color.L;
             return color;
         }
         public static implicit operator Vector4(HSLColor color) => new(color.H, color.S, color.L, float.NaN);

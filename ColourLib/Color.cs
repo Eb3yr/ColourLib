@@ -139,73 +139,74 @@ namespace ColourLib
         }
 		public static Color operator +(Color left, Color right)
 		{
-			left.r += right.r;
-			left.g += right.g;
-			left.b += right.b;
-            left.a += right.a;
+			left.R += right.R;
+			left.G += right.G;
+			left.B += right.B;
+            left.A += right.A;
 			return left;
 		}
 		public static Color operator -(Color left, Color right)
 		{
-			left.r -= right.r;
-			left.g -= right.g;
-			left.b -= right.b;
-            left.a -= right.a;
+			left.R -= right.R;
+			left.G -= right.G;
+			left.B -= right.B;
+            left.A -= right.A;
 			return left;
 		}
 		public static Color operator *(Color left, Color right)
 		{
-			left.r *= right.r;
-			left.g *= right.g;
-			left.b *= right.b;
-            left.a *= right.a;
+			left.R *= right.R;
+			left.G *= right.G;
+			left.B *= right.B;
+            left.A *= right.A;
 			return left;
 		}
 		public static Color operator /(Color left, Color right)
 		{
-			left.r /= right.r;
-			left.g /= right.g;
-			left.b /= right.b;
-            left.a /= right.a;
+			left.R /= right.R;
+			left.G /= right.G;
+			left.B /= right.B;
+            left.A /= right.A;
 			return left;
 		}
 		public static Color operator +(Color left, float right)
 		{
-			left.r += right;
-			left.g += right;
-			left.b += right;
-            left.a += right;
+			left.R += right;
+			left.G += right;
+			left.B += right;
+            left.A += right;
 			return left;
 		}
 		public static Color operator -(Color left, float right)
 		{
-			left.r -= right;
-			left.g -= right;
-			left.b -= right;
-            left.a -= right;
+			left.R -= right;
+			left.G -= right;
+			left.B -= right;
+            left.A -= right;
 			return left;
 		}
 		public static Color operator *(Color left, float right)
 		{
-			left.r *= right;
-			left.g *= right;
-			left.b *= right;
-            left.a *= right;
+			left.R *= right;
+			left.G *= right;
+			left.B *= right;
+            left.A *= right;
 			return left;
 		}
 		public static Color operator /(Color left, float right)
 		{
-			left.r /= right;
-			left.g /= right;
-			left.b /= right;
-            left.a /= right;
+			left.R /= right;
+			left.G /= right;
+			left.B /= right;
+            left.A /= right;
 			return left;
 		}
 		public static Color operator -(Color color)
 		{
-			color.r = 1f - color.r;
-			color.g = 1f - color.g;
-			color.b = 1f - color.b;
+			color.R = 1f - color.R;
+			color.G = 1f - color.G;
+			color.B = 1f - color.B;
+            // Is color.A = 1f - color.A appropriate here?
 			return color;
 		}
 		public static bool operator ==(Color left, Color right) => left.Equals(right);
