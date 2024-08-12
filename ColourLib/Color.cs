@@ -72,43 +72,11 @@ namespace ColourLib
         }
         public Color(string hex)
         {
-            char[][] str;
-            switch (hex.Length)
-            {
-                case 3:
-                    str = hex.Chunk(1).ToArray();
-                    R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
-					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
-					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
-					break;
-
-                case 4:
-					str = hex.Chunk(1).ToArray();
-					R = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
-					G = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
-					B = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
-					A = int.Parse(str[3][0].ToString(), System.Globalization.NumberStyles.HexNumber) / 255f;
-					break;
-
-                case 6:
-					str = hex.Chunk(1).ToArray();
-					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 255f;
-					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 255f;
-					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 255f;
-					break;
-
-                case 8:
-					str = hex.Chunk(1).ToArray();
-					str = hex.Chunk(1).ToArray();
-					R = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber) / 255f;
-					G = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber) / 255f;
-					B = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber) / 255f;
-					A = int.Parse(new string(str[3]), System.Globalization.NumberStyles.HexNumber) / 255f;
-					break;
-
-                default:
-                    throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
-            }
+            Color c = (Color)new Color32(hex);
+            R = c.R;
+            G = c.G;
+            B = c.B;
+            A = c.A;
         }
         public bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
         public override bool Equals(object? color) => color is Color c && color is not null && Equals(c);
