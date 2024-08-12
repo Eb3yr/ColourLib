@@ -72,12 +72,44 @@ namespace ColourLib
         }
         public Color(string hex)
         {
-            Color c = (Color)new Color32(hex);
-            R = c.R;
-            G = c.G;
-            B = c.B;
-            A = c.A;
-        }
+			if (hex[0] == '#')
+				hex = hex.Substring(1);
+
+			uint hexInt = uint.Parse(hex, System.Globalization.NumberStyles.HexNumber);
+			switch (hex.Length)
+			{
+				case 3:
+					R = (((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8) / 255f;
+					G = (((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4) / 255f;
+					B = ((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4) / 255f;
+					A = 1f;
+					break;
+
+				case 4:
+					R = (((hexInt & 0x0000F000) | (hexInt & 0x0000F000) << 4) >> 12) / 255f;
+					G = (((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8) / 255f;
+					B = (((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4) / 255f;
+					A = ((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4) / 255f;
+					break;
+
+				case 6:
+					R = ((hexInt & 0x00FF0000) >> 16) / 255f;
+					G = ((hexInt & 0x0000FF00) >> 8) / 255f;
+					B = (hexInt & 0x000000FF) / 255f;
+					A = 1f;
+					break;
+
+				case 8:
+					R = ((hexInt & 0xFF000000) >> 24) / 255f;
+					G = ((hexInt & 0x00FF0000) >> 16) / 255f;
+					B = ((hexInt & 0x0000FF00) >> 8) / 255f;
+					A = (hexInt & 0x000000FF) / 255f;
+					break;
+
+				default:
+					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
+			}
+		}
         public bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
         public override bool Equals(object? color) => color is Color c && color is not null && Equals(c);
         public float Max() => Max(false);
