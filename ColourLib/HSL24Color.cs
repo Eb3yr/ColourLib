@@ -73,6 +73,12 @@ namespace ColourLib
 			S32 = s;
 			L32 = l;
 		}
+		public HSL24Color(float h, float s, float l)
+		{
+			H32 = (int)Math.Round(h * 255f, MidpointRounding.AwayFromZero);
+			S32 = (int)Math.Round(s * 255f, MidpointRounding.AwayFromZero);
+			L32 = (int)Math.Round(l * 255f, MidpointRounding.AwayFromZero);
+		}
 		public bool Equals(HSL24Color color) => h == color.h && s == color.s && l == color.l;
 		public override bool Equals(object? color) => color is HSL24Color c && color is not null && Equals(c);
 		public static HSL24Color Difference(HSL24Color left, HSL24Color right)

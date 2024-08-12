@@ -169,13 +169,7 @@ namespace ColourLib
             float S = V == 0f ? 0f : 2f * (1f - color.l / V);
             return new(color.h, S, V);
         }
-        public static explicit operator HSL24Color(HSLColor color)
-        {
-            return new(
-                (byte)Math.Round(color.h, MidpointRounding.AwayFromZero),
-                (byte)Math.Round(color.s, MidpointRounding.AwayFromZero),
-                (byte)Math.Round(color.l, MidpointRounding.AwayFromZero));
-        }
+        public static explicit operator HSL24Color(HSLColor color) => new(color.h, color.s, color.l);
         public override readonly int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}
 }

@@ -61,17 +61,23 @@ namespace ColourLib
 				}
 			}
 		}
-		public HSV24Color(byte h, byte s, byte l)
+		public HSV24Color(byte h, byte s, byte v)
 		{
 			this.h = h;
 			this.s = s;
 			this.v = l;
 		}
-		public HSV24Color(int h, int s, int l)
+		public HSV24Color(int h, int s, int v)
 		{
 			H32 = h;
 			S32 = s;
 			V32 = l;
+		}
+		public HSV24Color(float h, float s, float v)
+		{
+			H32 = (int)Math.Round(h * 255f, MidpointRounding.AwayFromZero);
+			S32 = (int)Math.Round(s * 255f, MidpointRounding.AwayFromZero);
+			V32 = (int)Math.Round(v * 255f, MidpointRounding.AwayFromZero);
 		}
 		public bool Equals(HSV24Color color) => h == color.h && s == color.s && v == color.v;
 		public override bool Equals(object? color) => color is HSV24Color c && color is not null && Equals(c);
