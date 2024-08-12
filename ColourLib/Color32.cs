@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 
 namespace ColourLib
 {
@@ -149,12 +150,16 @@ namespace ColourLib
 		public byte Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
 		public string ToHex()
 		{
-			return r.ToString("X") + g.ToString("X") + b.ToString("X") + (a == 255 ? "" : a.ToString("X"));
+			string[] strs = [r.ToString("X"), g.ToString("X"), b.ToString("X"), a.ToString("X")];
+			for (int i = 0; i < 4; i++)
+				if (strs[i].Length == 1)
+					strs[i] = "0" + strs[i];
+			if (a == 255)
+				strs[3] = "";
+
+			return strs[0] + strs[1] + strs[2] + strs[3];
 		}
-		public static string ToHex(Color32 color)
-		{
-			return color.R.ToString("X") + color.G.ToString("X") + color.B.ToString("X") + (color.A == 255 ? "" : color.A.ToString("X"));
-		}
+		public static string ToHex(Color32 color) => color.ToHex();
 		public static Color32 FromHex(string hex) => new(hex);
 		public bool Equals(Color32 color) => color.R == r && color.G == g && color.B == b && color.A == a;
 		public override bool Equals(object? color) => color is Color32 c && color is not null && Equals(c);

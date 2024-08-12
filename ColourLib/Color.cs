@@ -116,11 +116,7 @@ namespace ColourLib
         public float Min() => Min(false);
 		public float Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
 		public float Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
-        public string ToHex()
-        {
-            Color32 c32 = (Color32)this;
-            return c32.R.ToString("X") + c32.G.ToString("X") + c32.B.ToString("X") + (a == 1f ? "" : c32.A.ToString("X"));
-        }
+        public string ToHex() => ((Color32)this).ToHex();
         public static string ToHex(Color color) => color.ToHex();
         public static Color FromHex(string hex) => new(hex);
 		public Color Difference(Color color) => Difference(this, color);
