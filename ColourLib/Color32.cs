@@ -105,7 +105,9 @@ namespace ColourLib
 		}
 		public Color32(string hex)
 		{
-			hex = hex.Replace("#", "");
+			if (hex[0] == '#')
+				hex = hex.Substring(1);
+
 			uint hexInt = uint.Parse(hex, System.Globalization.NumberStyles.HexNumber);
 			switch (hex.Length)
 			{
