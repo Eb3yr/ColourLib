@@ -55,6 +55,7 @@ namespace ColourLib
                 }
             }
         }
+        public Color Grayscale { get => new(0.299f * r, 0.587f * g, 0.114f * b, a); }
         public Color(float R, float G, float B, float A = 1f)
         {
             this.R = R;

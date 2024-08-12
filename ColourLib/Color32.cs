@@ -75,6 +75,13 @@ namespace ColourLib
                 }
             }
         }
+		public Color32 Grayscale
+		{
+			get => new(
+				(byte)Math.Round(0.299f * r, MidpointRounding.AwayFromZero),
+				(byte)Math.Round(0.587f * g, MidpointRounding.AwayFromZero),
+				(byte)Math.Round(0.114f * b, a, MidpointRounding.AwayFromZero));
+		}
 		public Color32(byte r, byte g, byte b, byte a = 255)
 		{
 			this.r = r;
@@ -246,6 +253,17 @@ namespace ColourLib
 		{
 			throw new NotImplementedException();
 		}
+		public static explicit operator Color(Color32 color)
+		{
+			return new(
+				color.r / 255f,
+				color.g / 255f,
+				color.b / 255f,
+				color.a / 255f
+				);
+		}
+		public static explicit operator HSL24Color(Color32 color) => (HSL24Color)(HSLColor)(Color)color;	// Yuck
+		public static explicit operator HSV24Color(Color32 color) => (HSV24Color)(HSVColor)(Color)color;
 		public override readonly int GetHashCode() => HashCode.Combine(r.GetHashCode(), g.GetHashCode(), b.GetHashCode(), a.GetHashCode());
 	}
 }

@@ -35,9 +35,7 @@ namespace ColourLib
         public static abstract T operator -(T left, T right);
         public static abstract T operator *(T left, T right);
         public static abstract T operator /(T left, T right);
-		
-		public static virtual T operator +(T color) => color;   // I don't think this is being inherited by implementing structs. Classes would, but not structs. Sort out later.
-        public static abstract T operator -(T color);   // inverts colour values. For example Color.R has a domain [0f, 1f], therefore -Color will have a red component of (1f - Color.R) 
+        public static abstract T operator -(T color);
         public static abstract bool operator ==(T left, T right);
         public static abstract bool operator !=(T left, T right);
         public static abstract implicit operator Vector4(T color);

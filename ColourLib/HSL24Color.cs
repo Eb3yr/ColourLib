@@ -182,6 +182,8 @@ namespace ColourLib
 				(byte)Math.Round(color.Z, MidpointRounding.AwayFromZero));
 		}
 		public static explicit operator HSLColor(HSL24Color color) => new(color.h / 255f, color.s / 255f, color.l / 255f);
+		public static explicit operator Color32(HSL24Color color) => (Color32)(Color)(HSLColor)color;   // Yuck
+		public static explicit operator HSV24Color(HSL24Color color) => (HSV24Color)(HSVColor)(HSLColor)color;
 		public override int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}
 }

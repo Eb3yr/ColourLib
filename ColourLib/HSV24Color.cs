@@ -65,13 +65,13 @@ namespace ColourLib
 		{
 			this.h = h;
 			this.s = s;
-			this.v = l;
+			this.v = v;
 		}
 		public HSV24Color(int h, int s, int v)
 		{
 			H32 = h;
 			S32 = s;
-			V32 = l;
+			V32 = v;
 		}
 		public HSV24Color(float h, float s, float v)
 		{
@@ -182,6 +182,8 @@ namespace ColourLib
 				(byte)Math.Round(color.Z, MidpointRounding.AwayFromZero));
 		}
 		public static explicit operator HSVColor(HSV24Color color) => new(color.h / 255f, color.s / 255f, color.v / 255f);
+		public static explicit operator Color32(HSV24Color color) => (Color32)(Color)(HSVColor)color;   // Yuck
+		public static explicit operator HSL24Color(HSV24Color color) => (HSL24Color)(HSLColor)(HSVColor)color;
 		public override int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), v.GetHashCode());
 	}
 }

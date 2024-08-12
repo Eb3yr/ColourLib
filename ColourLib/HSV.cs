@@ -52,7 +52,6 @@ namespace ColourLib
             this.S = S;
             this.V = V;
         }
-		public Vector3 GetHSV24() => new(h * 360f, s * 100f, v * 100f); // Temp until I implement a HSVColor32 class
 		public bool Equals(HSVColor color) => H == color.H && S == color.S && V == color.V;
         public override bool Equals(object? color) => color is HSVColor c && color is not null && Equals(c);
 		public float Max() => Math.Max(h, Math.Max(s, v)); 

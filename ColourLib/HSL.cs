@@ -52,7 +52,6 @@ namespace ColourLib
             this.S = S;
             this.L = L;
         }
-        public Vector3 GetHSL24() => new(h * 360f, s * 100f, l * 100f); // Temp until I implement a HSLColor32 class
         public bool Equals(HSLColor color) => H == color.H && S == color.S && L == color.L;
         public override bool Equals(object? color) => color is HSLColor c && color is not null && Equals(c);
 		public float Max() => Math.Max(h, Math.Max(s, l)); 
