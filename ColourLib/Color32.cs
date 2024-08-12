@@ -105,22 +105,22 @@ namespace ColourLib
 		}
 		public Color32(string hex)
 		{
+			hex = hex.Replace("#", "");
 			uint hexInt = uint.Parse(hex, System.Globalization.NumberStyles.HexNumber);
-			// Bit shifts != hex shifts. A hex shift of 1 is a bit shift of 4.
 			switch (hex.Length)
 			{
 				case 3:
-					R = (byte)((hexInt & 0x00000F00) >> 8);
-					G = (byte)((hexInt & 0x000000F0) >> 4);
-					B = (byte)(hexInt & 0x0000000F);
+					R = (byte)(((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8);
+					G = (byte)(((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4);
+					B = (byte)((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4);
 					A = 255;
 					break;
 
 				case 4:
-					R = (byte)((hexInt & 0x0000F000) >> 12);
-					G = (byte)((hexInt & 0x00000F00) >> 8);
-					B = (byte)((hexInt & 0x000000F0) >> 4);
-					A = (byte)(hexInt & 0x0000000F);
+					R = (byte)(((hexInt & 0x0000F000) | (hexInt & 0x0000F000) << 4) >> 12);
+					G = (byte)(((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8);
+					B = (byte)(((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4);
+					A = (byte)((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4);
 					break;
 
 				case 6:
