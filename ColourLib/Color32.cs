@@ -105,38 +105,36 @@ namespace ColourLib
 		}
 		public Color32(string hex)
 		{
-			char[][] str;
+			uint hexInt = uint.Parse(hex, System.Globalization.NumberStyles.HexNumber);
+			// Bit shifts != hex shifts. A hex shift of 1 is a bit shift of 4.
 			switch (hex.Length)
 			{
 				case 3:
-					str = hex.Chunk(1).ToArray();
-					R32 = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber);
-					G32 = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber);
-					B32 = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber);
+					R = (byte)((hexInt & 0x00000F00) >> 8);
+					G = (byte)((hexInt & 0x000000F0) >> 4);
+					B = (byte)(hexInt & 0x0000000F);
+					A = 255;
 					break;
 
 				case 4:
-					str = hex.Chunk(1).ToArray();
-					R32 = int.Parse(str[0][0].ToString(), System.Globalization.NumberStyles.HexNumber);
-					G32 = int.Parse(str[1][0].ToString(), System.Globalization.NumberStyles.HexNumber);
-					B32 = int.Parse(str[2][0].ToString(), System.Globalization.NumberStyles.HexNumber);
-					A32 = int.Parse(str[3][0].ToString(), System.Globalization.NumberStyles.HexNumber);
+					R = (byte)((hexInt & 0x0000F000) >> 12);
+					G = (byte)((hexInt & 0x00000F00) >> 8);
+					B = (byte)((hexInt & 0x000000F0) >> 4);
+					A = (byte)(hexInt & 0x0000000F);
 					break;
 
 				case 6:
-					str = hex.Chunk(1).ToArray();
-					R32 = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber);
-					G32 = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber);
-					B32 = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber);
+					R = (byte)((hexInt & 0x00FF0000) >> 16);
+					G = (byte)((hexInt & 0x0000FF00) >> 8);
+					B = (byte)(hexInt & 0x000000FF);
+					A = 255;
 					break;
 
 				case 8:
-					str = hex.Chunk(1).ToArray();
-					str = hex.Chunk(1).ToArray();
-					R32 = int.Parse(new string(str[0]), System.Globalization.NumberStyles.HexNumber);
-					G32 = int.Parse(new string(str[1]), System.Globalization.NumberStyles.HexNumber);
-					B32 = int.Parse(new string(str[2]), System.Globalization.NumberStyles.HexNumber);
-					A32 = int.Parse(new string(str[3]), System.Globalization.NumberStyles.HexNumber);
+					R = (byte)((hexInt & 0xFF000000) >> 24);
+					G = (byte)((hexInt & 0x00FF0000) >> 16);
+					B = (byte)((hexInt & 0x0000FF00) >> 8);
+					A = (byte)(hexInt & 0x000000FF);
 					break;
 
 				default:
