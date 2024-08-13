@@ -2,6 +2,7 @@
 
 namespace ColourLib
 {
+    // Unfortunately, default implementations of methods are not inherited by structs. Some methods are duplicated across different color structs, so should an issue arise all will need updating.
     public interface IColorB<T> : IColor<T> where T : IColorB<T>
     {
         public abstract byte this[int i] { get; set; }
@@ -30,7 +31,7 @@ namespace ColourLib
         public static abstract T Lerp(T from, T to, float val);
         public abstract T LerpUnclamped(T to, float val);
         public static abstract T LerpUnclamped(T from, T to, float val);
-        //public static abstract bool InverseLerp(T left, T right, T val, out float lerpVal); // Returns false if val is not along the line between left and right. 
+        public static abstract bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal); // Returns false if val is not along the line between left and right. Vector4 circumvents clamping behaviour of color channels
         public static abstract T operator +(T left, T right);
         public static abstract T operator -(T left, T right);
         public static abstract T operator *(T left, T right);

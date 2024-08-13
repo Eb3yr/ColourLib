@@ -90,8 +90,40 @@ namespace ColourLib
                 K = (from.k * (1.0f - val)) + (to.k * val)
             };
         }
+		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
+		{
+			lerpVal = 0f;
+			Vector4 ratioVec = (val - right) / (left - val);
+			float? previous = null;
+			for (int i = 0; i < 4; i++)
+			{
+				if (float.IsNaN(ratioVec[i]))
+					continue;
 
-        public static CMYKColor operator +(CMYKColor left, CMYKColor right)
+				if (previous is null)
+				{
+					previous = ratioVec[i];
+					lerpVal = (val[i] - left[i]) / (right[i] - left[i]);
+				}
+				else if (ratioVec[i] != previous)
+				{
+					lerpVal = 0f;
+					return false;
+				}
+			}
+			if (float.IsInfinity(lerpVal))
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			if (lerpVal > 1f || lerpVal < 0f)
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			return true;
+		}
+		public static CMYKColor operator +(CMYKColor left, CMYKColor right)
         {
             throw new NotImplementedException();
         }

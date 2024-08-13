@@ -76,7 +76,40 @@ namespace ColourLib
                 (from.l * (1.0f - val)) + (to.l * val)
             );
 		}
-        public static HSLColor operator +(HSLColor left, HSLColor right)
+		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
+		{
+			lerpVal = 0f;
+			Vector4 ratioVec = (val - right) / (left - val);
+			float? previous = null;
+			for (int i = 0; i < 4; i++)
+			{
+				if (float.IsNaN(ratioVec[i]))
+					continue;
+
+				if (previous is null)
+				{
+					previous = ratioVec[i];
+					lerpVal = (val[i] - left[i]) / (right[i] - left[i]);
+				}
+				else if (ratioVec[i] != previous)
+				{
+					lerpVal = 0f;
+					return false;
+				}
+			}
+			if (float.IsInfinity(lerpVal))
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			if (lerpVal > 1f || lerpVal < 0f)
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			return true;
+		}
+		public static HSLColor operator +(HSLColor left, HSLColor right)
         {
             left.H += right.H;
             left.S += right.S;

@@ -141,38 +141,39 @@ namespace ColourLib
                 (from.a * (1.0f - val)) + (to.a * val)
             );
         }
-		public static bool InverseLerp(Color left, Color right, Color val, out float lerpVal)
-        {
+		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
+		{
+			lerpVal = 0f;
+			Vector4 ratioVec = (val - right) / (left - val);
+			float? previous = null;
+			for (int i = 0; i < 4; i++)
+			{
+				if (float.IsNaN(ratioVec[i]))
+					continue;
 
-
-            float lambda = (right.r - val.r) / (val.r - left.r);
-            lerpVal = float.NaN;    // What's the convention for out variables if the method returns false?
-            float[] channels = new float[4];
-            for (int i = 0; i < 4; i++)
-                channels[i] = (right[i] - val[i]) / (val[i] - left[i]);
-
-
-            // I *think* this should alleviate any errors caused by dividing by zero. 
-            // Is this even mathematically correct? => Yes, there's usually a unique solution for lambda caused by the multiple equations, however a single equation where both the numerator and denominator = 0, lambda has infinite solutions. 
-            if (!(
-                ((left.r == right.r && left.r == val.r) || lambda == ((right.r - val.r) / (val.r - left.r))) &&
-                ((left.g == right.g && left.g == val.g) || lambda == ((right.g - val.g) / (val.g - left.g))) &&
-                ((left.b == right.b && left.b == val.b) || lambda == ((right.b - val.b) / (val.b - left.b))) &&
-                ((left.a == right.a && left.a == val.a) || lambda == ((right.a - val.a) / (val.a - left.a)))
-                ))
-                return false;
-
-            // Continue as true, get lerpVal using lambda.
-
-            // Problem: If red is the colour that has the 0 / 0 edge case, then lambda is borked. Instead, I think I should calculate them all, check if they're all zeroes or infinities, and if not remove infinities and proceed as normal with lambda being any of the non-infinity variables. Maybe lambda gets reassigned the value 1f? IDK.
-
-            // For that matter, should I make an array of arrays (or 2d array? which is better?) to store the denominator and numerator separately. Because anything / 0 gives an infinity, so I lose information about the numerator. Eg if r2 - r1 = 0, val.r is at left.r. If r3 - r2 is at 0, val.r is at right.r. But if both occur and I divide, I lose that information (though this should only happen when the vectors are equal. Should I just do equality checks?)
-            // For that matter, I now have arithmetic operators for Colors. I don't really need to act solely on the channels. 
-            // How about, if I find a zero or an infinity, I check to see if val is equal to left or right or both. If neither, continue as normal, otherwise return something reflecting that. How does unity's float InverseLerp handle when left, right and val are all equal? Mirror that here. 
-            // 0f / 0f is not infinity, it is NaN. 
-
-            return true;
-        }
+				if (previous is null)
+				{
+					previous = ratioVec[i];
+					lerpVal = (val[i] - left[i]) / (right[i] - left[i]);
+				}
+				else if (ratioVec[i] != previous)
+				{
+					lerpVal = 0f;
+					return false;
+				}
+			}
+			if (float.IsInfinity(lerpVal))
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			if (lerpVal > 1f || lerpVal < 0f)
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			return true;
+		}
 		public static Color operator +(Color left, Color right)
 		{
 			left.R += right.R;

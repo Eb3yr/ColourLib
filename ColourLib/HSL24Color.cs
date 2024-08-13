@@ -105,6 +105,39 @@ namespace ColourLib
 			from.L = (byte)Math.Round(from.l * (1.0f - val) + (to.l * val), MidpointRounding.AwayFromZero);
 			return from;
 		}
+		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
+		{
+			lerpVal = 0f;
+			Vector4 ratioVec = (val - right) / (left - val);
+			float? previous = null;
+			for (int i = 0; i < 4; i++)
+			{
+				if (float.IsNaN(ratioVec[i]))
+					continue;
+
+				if (previous is null)
+				{
+					previous = ratioVec[i];
+					lerpVal = (val[i] - left[i]) / (right[i] - left[i]);
+				}
+				else if (ratioVec[i] != previous)
+				{
+					lerpVal = 0f;
+					return false;
+				}
+			}
+			if (float.IsInfinity(lerpVal))
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			if (lerpVal > 1f || lerpVal < 0f)
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			return true;
+		}
 		public byte Max() => Math.Max(h, Math.Max(s, l));
 		public byte Min() => Math.Min(h, Math.Min(s, l));
 		public string ToString(string? format, IFormatProvider? formatProvider) => $"<{h},{s},{l}>";

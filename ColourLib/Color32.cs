@@ -167,7 +167,6 @@ namespace ColourLib
 		{
 			throw new NotImplementedException();
 		}
-
 		public static Color32 Difference(Color32 from, Color32 to)
 		{
 			throw new NotImplementedException();
@@ -177,38 +176,63 @@ namespace ColourLib
 		{
 			throw new NotImplementedException();
 		}
-
 		public static Color32 Lerp(Color32 from, Color32 to, float val)
 		{
 			throw new NotImplementedException();
 		}
-
 		public Color32 LerpUnclamped(Color32 to, float val)
 		{
 			throw new NotImplementedException();
 		}
-
 		public static Color32 LerpUnclamped(Color32 from, Color32 to, float val)
 		{
 			throw new NotImplementedException();
 		}
+		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
+		{
+			lerpVal = 0f;
+			Vector4 ratioVec = (val - right) / (left - val);
+			float? previous = null;
+			for (int i = 0; i < 4; i++)
+			{
+				if (float.IsNaN(ratioVec[i]))
+					continue;
 
-		
+				if (previous is null)
+				{
+					previous = ratioVec[i];
+					lerpVal = (val[i] - left[i]) / (right[i] - left[i]);
+				}
+				else if (ratioVec[i] != previous)
+				{
+					lerpVal = 0f;
+					return false;
+				}
+			}
+			if (float.IsInfinity(lerpVal))
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			if (lerpVal > 1f || lerpVal < 0f)
+			{
+				lerpVal = 0f;
+				return false;
+			}
+			return true;
+		}
 		public static Color32 operator +(Color32 left, Color32 right)
 		{
 			throw new NotImplementedException();
 		}
-
 		public static Color32 operator -(Color32 left, Color32 right)
 		{
 			throw new NotImplementedException();
 		}
-
 		public static Color32 operator *(Color32 left, Color32 right)
 		{
 			throw new NotImplementedException();
 		}
-
 		public static Color32 operator /(Color32 left, Color32 right)
 		{
 			throw new NotImplementedException();
