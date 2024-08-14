@@ -70,11 +70,10 @@ namespace ColourLib
         public HSLColor LerpUnclamped(HSLColor to, float val) => LerpUnclamped(this, to, val);
 		public static HSLColor LerpUnclamped(HSLColor from, HSLColor to, float val)
 		{
-            return new(
-                (from.h * (1.0f - val)) + (to.h * val),
-                (from.s * (1.0f - val)) + (to.s * val),
-                (from.l * (1.0f - val)) + (to.l * val)
-            );
+            from.H = (from.h * (1.0f - val)) + (to.h * val);
+            from.S = (from.s * (1.0f - val)) + (to.s * val);
+            from.L = (from.l * (1.0f - val)) + (to.l * val);
+            return from;
 		}
 		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
 		{
