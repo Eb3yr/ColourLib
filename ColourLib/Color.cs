@@ -134,12 +134,11 @@ namespace ColourLib
         public Color LerpUnclamped(Color to, float val) => LerpUnclamped(this, to, val);
         public static Color LerpUnclamped(Color from, Color to, float val)
         {
-            return new(
-                (from.r * (1.0f - val)) + (to.r * val),
-                (from.g * (1.0f - val)) + (to.g * val),
-                (from.b * (1.0f - val)) + (to.b * val),
-                (from.a * (1.0f - val)) + (to.a * val)
-            );
+			from.R = (from.r * (1.0f - val)) + (to.r * val);
+            from.G = (from.g * (1.0f - val)) + (to.g * val);
+            from.B = (from.b * (1.0f - val)) + (to.b * val);
+			from.A = (from.a * (1.0f - val)) + (to.a * val);
+			return from;
         }
 		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
 		{
@@ -243,7 +242,7 @@ namespace ColourLib
 			color.R = 1f - color.R;
 			color.G = 1f - color.G;
 			color.B = 1f - color.B;
-            // Is color.A = 1f - color.A appropriate here?
+			color.A = 1f - color.A;
 			return color;
 		}
 		public static bool operator ==(Color left, Color right) => left.Equals(right);
