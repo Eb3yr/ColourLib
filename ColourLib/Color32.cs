@@ -163,30 +163,26 @@ namespace ColourLib
 		public static Color32 FromHex(string hex) => new(hex);
 		public bool Equals(Color32 color) => color.R == r && color.G == g && color.B == b && color.A == a;
 		public override bool Equals(object? color) => color is Color32 c && color is not null && Equals(c);
-		public Color32 Difference(Color32 color)
+		public Color32 Difference(Color32 color) => Difference(this, color);
+		public static Color32 Difference(Color32 left, Color32 right)
 		{
-			throw new NotImplementedException();
-		}
-		public static Color32 Difference(Color32 from, Color32 to)
-		{
-			throw new NotImplementedException();
+			right.R = (byte)Math.Abs(right.R - left.R);
+			right.G = (byte)Math.Abs(right.G - left.G);
+			right.B = (byte)Math.Abs(right.B - left.B);
+			right.A = (byte)Math.Abs(right.A - left.A);
+			return right;
 		}
 		public string ToString(string? format, IFormatProvider? formatProvider) => $"<{r},{g},{b},{a}>";
-		public Color32 Lerp(Color32 to, float val)
-		{
-			throw new NotImplementedException();
-		}
-		public static Color32 Lerp(Color32 from, Color32 to, float val)
-		{
-			throw new NotImplementedException();
-		}
-		public Color32 LerpUnclamped(Color32 to, float val)
-		{
-			throw new NotImplementedException();
-		}
+		public Color32 Lerp(Color32 to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
+		public static Color32 Lerp(Color32 from, Color32 to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+		public Color32 LerpUnclamped(Color32 to, float val) => LerpUnclamped(this, to, val);
 		public static Color32 LerpUnclamped(Color32 from, Color32 to, float val)
 		{
-			throw new NotImplementedException();
+			from.R32 = (int)Math.Round((from.r * (1.0f - val)) + (to.r * val), MidpointRounding.AwayFromZero);
+			from.G32 = (int)Math.Round((from.g * (1.0f - val)) + (to.g * val), MidpointRounding.AwayFromZero);
+			from.B32 = (int)Math.Round((from.b * (1.0f - val)) + (to.b * val), MidpointRounding.AwayFromZero);
+			from.A32 = (int)Math.Round((from.a * (1.0f - val)) + (to.a * val), MidpointRounding.AwayFromZero);
+			return from;
 		}
 		public static bool InverseLerp(Vector4 left, Vector4 right, Vector4 val, out float lerpVal)
 		{
@@ -223,64 +219,87 @@ namespace ColourLib
 		}
 		public static Color32 operator +(Color32 left, Color32 right)
 		{
-			throw new NotImplementedException();
+			left.R32 = left.r + right.r;
+			left.G32 = left.g + right.g;
+			left.B32 = left.b + right.b;
+			left.A32 = left.a + right.a;
+			return left;
 		}
 		public static Color32 operator -(Color32 left, Color32 right)
 		{
-			throw new NotImplementedException();
+			left.R32 = left.r - right.r;
+			left.G32 = left.g - right.g;
+			left.B32 = left.b - right.b;
+			left.A32 = left.a - right.a;
+			return left;
 		}
 		public static Color32 operator *(Color32 left, Color32 right)
 		{
-			throw new NotImplementedException();
+			left.R32 = left.r * right.r;
+			left.G32 = left.g * right.g;
+			left.B32 = left.b * right.b;
+			left.A32 = left.a * right.a;
+			return left;
 		}
 		public static Color32 operator /(Color32 left, Color32 right)
 		{
-			throw new NotImplementedException();
+			left.r = (byte)Math.Round((float)left.r / right.r, MidpointRounding.AwayFromZero);
+			left.g = (byte)Math.Round((float)left.g / right.g, MidpointRounding.AwayFromZero);
+			left.b = (byte)Math.Round((float)left.b / right.b, MidpointRounding.AwayFromZero);
+			left.a = (byte)Math.Round((float)left.a / right.a, MidpointRounding.AwayFromZero);
+			return left;
 		}
-
 		public static Color32 operator +(Color32 left, byte right)
 		{
-			throw new NotImplementedException();
+			left.R32 = left.r + right;
+			left.R32 = left.g + right;
+			left.R32 = left.b + right;
+			left.R32 = left.a + right;
+			return left;
 		}
-
 		public static Color32 operator -(Color32 left, byte right)
 		{
-			throw new NotImplementedException();
+			left.R32 = left.r - right;
+			left.R32 = left.g - right;
+			left.R32 = left.b - right;
+			left.R32 = left.a - right;
+			return left;
 		}
-
 		public static Color32 operator *(Color32 left, byte right)
 		{
-			throw new NotImplementedException();
+			left.R32 = left.r * right;
+			left.R32 = left.g * right;
+			left.R32 = left.b * right;
+			left.R32 = left.a * right;
+			return left;
 		}
-
 		public static Color32 operator /(Color32 left, byte right)
 		{
-			throw new NotImplementedException();
+			left.r = (byte)Math.Round((float)left.r / right, MidpointRounding.AwayFromZero);
+			left.g = (byte)Math.Round((float)left.g / right, MidpointRounding.AwayFromZero);
+			left.b = (byte)Math.Round((float)left.b / right, MidpointRounding.AwayFromZero);
+			left.a = (byte)Math.Round((float)left.a / right, MidpointRounding.AwayFromZero);
+			return left;
 		}
-
 		public static Color32 operator -(Color32 color)
 		{
-			throw new NotImplementedException();
+			color.r = (byte)(255 - color.r);
+			color.g = (byte)(255 - color.g);
+			color.b = (byte)(255 - color.b);
+			color.a = (byte)(255 - color.a);
+			return color;
 		}
-
-		public static bool operator ==(Color32 left, Color32 right)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static bool operator !=(Color32 left, Color32 right)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static implicit operator Vector4(Color32 color)
-		{
-			throw new NotImplementedException();
-		}
-
+		public static bool operator ==(Color32 left, Color32 right) => left.Equals(right);
+		public static bool operator !=(Color32 left, Color32 right) => !left.Equals(right);
+		public static implicit operator Vector4(Color32 color) => new(color.r, color.g, color.b, color.a);
 		public static implicit operator Color32(Vector4 color)
 		{
-			throw new NotImplementedException();
+			return new(
+			(byte)Math.Round(color.X, MidpointRounding.AwayFromZero),
+			(byte)Math.Round(color.Y, MidpointRounding.AwayFromZero),
+			(byte)Math.Round(color.Z, MidpointRounding.AwayFromZero),
+			(byte)Math.Round(color.W, MidpointRounding.AwayFromZero)
+				);
 		}
 		public static explicit operator Color(Color32 color)
 		{
@@ -291,7 +310,7 @@ namespace ColourLib
 				color.a / 255f
 				);
 		}
-		public static explicit operator HSL24Color(Color32 color) => (HSL24Color)(HSLColor)(Color)color;	// Yuck
+		public static explicit operator HSL24Color(Color32 color) => (HSL24Color)(HSLColor)(Color)color;
 		public static explicit operator HSV24Color(Color32 color) => (HSV24Color)(HSVColor)(Color)color;
 		public override readonly int GetHashCode() => HashCode.Combine(r.GetHashCode(), g.GetHashCode(), b.GetHashCode(), a.GetHashCode());
 	}
