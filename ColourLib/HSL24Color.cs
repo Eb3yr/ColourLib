@@ -2,7 +2,7 @@
 
 namespace ColourLib
 {
-	public struct HSL24Color : IColorB<HSL24Color>
+	public struct Hsl24Color : IColorB<Hsl24Color>
 	{
 		private byte h;
 		private byte s;
@@ -61,44 +61,44 @@ namespace ColourLib
 				}
 			}
 		}
-		public HSL24Color(byte h, byte s, byte l)
+		public Hsl24Color(byte h, byte s, byte l)
 		{
 			this.h = h;
 			this.s = s;
 			this.l = l;
 		}
-		public HSL24Color(int h, int s, int l)
+		public Hsl24Color(int h, int s, int l)
 		{
 			H32 = h;
 			S32 = s;
 			L32 = l;
 		}
-		public HSL24Color(float h, float s, float l)
+		public Hsl24Color(float h, float s, float l)
 		{
 			H32 = (int)Math.Round(h * 255f, MidpointRounding.AwayFromZero);
 			S32 = (int)Math.Round(s * 255f, MidpointRounding.AwayFromZero);
 			L32 = (int)Math.Round(l * 255f, MidpointRounding.AwayFromZero);
 		}
-		public bool Equals(HSL24Color color) => h == color.h && s == color.s && l == color.l;
-		public override bool Equals(object? color) => color is HSL24Color c && color is not null && Equals(c);
-		public static HSL24Color Difference(HSL24Color left, HSL24Color right)
+		public bool Equals(Hsl24Color color) => h == color.h && s == color.s && l == color.l;
+		public override bool Equals(object? color) => color is Hsl24Color c && color is not null && Equals(c);
+		public static Hsl24Color Difference(Hsl24Color left, Hsl24Color right)
 		{
 			left.H = (byte)Math.Abs(left.h - right.h);
 			left.S = (byte)Math.Abs(left.s - right.s);
 			left.L = (byte)Math.Abs(left.l - right.l);
 			return left;
 		}
-		public HSL24Color Difference(HSL24Color color)
+		public Hsl24Color Difference(Hsl24Color color)
 		{
 			color.H = (byte)Math.Abs(h - color.h);
 			color.S = (byte)Math.Abs(s - color.s);
 			color.L = (byte)Math.Abs(l - color.l);
 			return color;
 		}
-		public HSL24Color Lerp(HSL24Color to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
-		public static HSL24Color Lerp(HSL24Color from, HSL24Color to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-		public HSL24Color LerpUnclamped(HSL24Color to, float val) => LerpUnclamped(this, to, val);
-		public static HSL24Color LerpUnclamped(HSL24Color from, HSL24Color to, float val)
+		public Hsl24Color Lerp(Hsl24Color to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
+		public static Hsl24Color Lerp(Hsl24Color from, Hsl24Color to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+		public Hsl24Color LerpUnclamped(Hsl24Color to, float val) => LerpUnclamped(this, to, val);
+		public static Hsl24Color LerpUnclamped(Hsl24Color from, Hsl24Color to, float val)
 		{
 			from.H = (byte)Math.Round(from.h * (1.0f - val) + (to.h * val), MidpointRounding.AwayFromZero);
 			from.S = (byte)Math.Round(from.s * (1.0f - val) + (to.s * val), MidpointRounding.AwayFromZero);
@@ -141,82 +141,82 @@ namespace ColourLib
 		public byte Max() => Math.Max(h, Math.Max(s, l));
 		public byte Min() => Math.Min(h, Math.Min(s, l));
 		public string ToString(string? format, IFormatProvider? formatProvider) => $"<{h},{s},{l}>";
-		public static HSL24Color operator +(HSL24Color left, HSL24Color right)
+		public static Hsl24Color operator +(Hsl24Color left, Hsl24Color right)
 		{
 			left.H += right.h;
 			left.S += right.s;
 			left.L += right.l;
 			return left;
 		}
-		public static HSL24Color operator +(HSL24Color left, byte right)
+		public static Hsl24Color operator +(Hsl24Color left, byte right)
 		{
 			left.H += right;
 			left.S += right;
 			left.L += right;
 			return left;
 		}
-		public static HSL24Color operator -(HSL24Color left, HSL24Color right)
+		public static Hsl24Color operator -(Hsl24Color left, Hsl24Color right)
 		{
 			left.H -= right.h;
 			left.S -= right.s;
 			left.L -= right.l;
 			return left;
 		}
-		public static HSL24Color operator -(HSL24Color left, byte right)
+		public static Hsl24Color operator -(Hsl24Color left, byte right)
 		{
 			left.H -= right;
 			left.S -= right;
 			left.L -= right;
 			return left;
 		}
-		public static HSL24Color operator *(HSL24Color left, HSL24Color right)
+		public static Hsl24Color operator *(Hsl24Color left, Hsl24Color right)
 		{
 			left.H *= right.h;
 			left.S *= right.s;
 			left.L *= right.l;
 			return left;
 		}
-		public static HSL24Color operator *(HSL24Color left, byte right)
+		public static Hsl24Color operator *(Hsl24Color left, byte right)
 		{
 			left.H *= right;
 			left.S *= right;
 			left.L *= right;
 			return left;
 		}
-		public static HSL24Color operator /(HSL24Color left, HSL24Color right)
+		public static Hsl24Color operator /(Hsl24Color left, Hsl24Color right)
 		{
 			left.H /= right.h;
 			left.S /= right.s;
 			left.L /= right.l;
 			return left;
 		}
-		public static HSL24Color operator /(HSL24Color left, byte right)
+		public static Hsl24Color operator /(Hsl24Color left, byte right)
 		{
 			left.H /= right;
 			left.S /= right;
 			left.L /= right;
 			return left;
 		}
-		public static HSL24Color operator -(HSL24Color color)
+		public static Hsl24Color operator -(Hsl24Color color)
 		{
 			color.h = (byte)(255 - color.h);
 			color.s = (byte)(255 - color.s);
 			color.l = (byte)(255 - color.l);
 			return color;
 		}
-		public static bool operator ==(HSL24Color left, HSL24Color right) => left.Equals(right);
-		public static bool operator !=(HSL24Color left, HSL24Color right) => !left.Equals(right);
-		public static implicit operator Vector4(HSL24Color color) => new(color.h, color.s, color.l, float.NaN);
-		public static implicit operator HSL24Color(Vector4 color)
+		public static bool operator ==(Hsl24Color left, Hsl24Color right) => left.Equals(right);
+		public static bool operator !=(Hsl24Color left, Hsl24Color right) => !left.Equals(right);
+		public static implicit operator Vector4(Hsl24Color color) => new(color.h, color.s, color.l, float.NaN);
+		public static implicit operator Hsl24Color(Vector4 color)
 		{
 			return new(
 				(byte)Math.Round(color.X, MidpointRounding.AwayFromZero),
 				(byte)Math.Round(color.Y, MidpointRounding.AwayFromZero),
 				(byte)Math.Round(color.Z, MidpointRounding.AwayFromZero));
 		}
-		public static explicit operator HSLColor(HSL24Color color) => new(color.h / 255f, color.s / 255f, color.l / 255f);
-		public static explicit operator Color32(HSL24Color color) => (Color32)(Color)(HSLColor)color;   // Yuck
-		public static explicit operator HSV24Color(HSL24Color color) => (HSV24Color)(HSVColor)(HSLColor)color;
+		public static explicit operator HslColor(Hsl24Color color) => new(color.h / 255f, color.s / 255f, color.l / 255f);
+		public static explicit operator Color32(Hsl24Color color) => (Color32)(Color)(HslColor)color;   // Yuck
+		public static explicit operator Hsv24Color(Hsl24Color color) => (Hsv24Color)(HsvColor)(HslColor)color;
 		public override int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}
 }

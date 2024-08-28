@@ -2,7 +2,7 @@
 
 namespace ColourLib
 {
-    public struct CMYKColor : IColorF<CMYKColor>
+    public struct CmykColor : IColorF<CmykColor>
     {
         private float c;
         private float m;
@@ -55,32 +55,32 @@ namespace ColourLib
                 }
             }
         }
-        public CMYKColor(float C, float M, float Y, float K = 0f)
+        public CmykColor(float C, float M, float Y, float K = 0f)
         {
             this.C = C;
             this.M = M;
             this.Y = Y;
             this.K = K;
         }
-        public bool Equals(CMYKColor color) => C == color.C && M == color.M && Y == color.Y && K == color.K;
-        public override bool Equals(object? color) => color is CMYKColor c && color is not null && Equals(c);
+        public bool Equals(CmykColor color) => C == color.C && M == color.M && Y == color.Y && K == color.K;
+        public override bool Equals(object? color) => color is CmykColor c && color is not null && Equals(c);
         public float Max() => Math.Max(c, Math.Max(m, Math.Max(y, k)));
 		public float Min() => Math.Min(c, Math.Min(m, Math.Min(y, k)));
-		public CMYKColor Difference(CMYKColor color)
+		public CmykColor Difference(CmykColor color)
         {
             throw new NotImplementedException();
         }
-        public static CMYKColor Difference(CMYKColor left, CMYKColor right)
+        public static CmykColor Difference(CmykColor left, CmykColor right)
         {
             throw new NotImplementedException();
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c},{m},{y},{k}>";
-        public CMYKColor Lerp(CMYKColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
-        public static CMYKColor Lerp(CMYKColor from, CMYKColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+        public CmykColor Lerp(CmykColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public static CmykColor Lerp(CmykColor from, CmykColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
-        public CMYKColor LerpUnclamped(CMYKColor to, float val) => LerpUnclamped(this, to, val);
+        public CmykColor LerpUnclamped(CmykColor to, float val) => LerpUnclamped(this, to, val);
 
-        public static CMYKColor LerpUnclamped(CMYKColor from, CMYKColor to, float val)
+        public static CmykColor LerpUnclamped(CmykColor from, CmykColor to, float val)
         {
             return new()
             {
@@ -123,67 +123,67 @@ namespace ColourLib
 			}
 			return true;
 		}
-		public static CMYKColor operator +(CMYKColor left, CMYKColor right)
+		public static CmykColor operator +(CmykColor left, CmykColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYKColor operator -(CMYKColor left, CMYKColor right)
+        public static CmykColor operator -(CmykColor left, CmykColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYKColor operator *(CMYKColor left, CMYKColor right)
+        public static CmykColor operator *(CmykColor left, CmykColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYKColor operator /(CMYKColor left, CMYKColor right)
+        public static CmykColor operator /(CmykColor left, CmykColor right)
         {
             throw new NotImplementedException();
         }
 
-        public static CMYKColor operator -(CMYKColor color)
+        public static CmykColor operator -(CmykColor color)
         {
             throw new NotImplementedException();
         }
 
-        public static implicit operator Vector4(CMYKColor color)
+        public static implicit operator Vector4(CmykColor color)
         {
             throw new NotImplementedException();
         }
 
-        public static implicit operator CMYKColor(Vector4 color)
+        public static implicit operator CmykColor(Vector4 color)
         {
             throw new NotImplementedException();
         }
 
-		public static CMYKColor operator +(CMYKColor left, float right)
+		public static CmykColor operator +(CmykColor left, float right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static CMYKColor operator -(CMYKColor left, float right)
+		public static CmykColor operator -(CmykColor left, float right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static CMYKColor operator *(CMYKColor left, float right)
+		public static CmykColor operator *(CmykColor left, float right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static CMYKColor operator /(CMYKColor left, float right)
+		public static CmykColor operator /(CmykColor left, float right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static bool operator ==(CMYKColor left, CMYKColor right)
+		public static bool operator ==(CmykColor left, CmykColor right)
 		{
 			throw new NotImplementedException();
 		}
 
-		public static bool operator !=(CMYKColor left, CMYKColor right)
+		public static bool operator !=(CmykColor left, CmykColor right)
 		{
 			throw new NotImplementedException();
 		}

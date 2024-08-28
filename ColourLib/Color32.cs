@@ -310,8 +310,8 @@ namespace ColourLib
 				color.a / 255f
 				);
 		}
-		public static explicit operator HSL24Color(Color32 color) => (HSL24Color)(HSLColor)(Color)color;
-		public static explicit operator HSV24Color(Color32 color) => (HSV24Color)(HSVColor)(Color)color;
+		public static explicit operator Hsl24Color(Color32 color) => (Hsl24Color)(HslColor)(Color)color;
+		public static explicit operator Hsv24Color(Color32 color) => (Hsv24Color)(HsvColor)(Color)color;
 		public override readonly int GetHashCode() => HashCode.Combine(r.GetHashCode(), g.GetHashCode(), b.GetHashCode(), a.GetHashCode());
 	}
 }

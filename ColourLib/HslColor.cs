@@ -2,7 +2,7 @@
 
 namespace ColourLib
 {
-    public struct HSLColor : IColorF<HSLColor>
+    public struct HslColor : IColorF<HslColor>
     {
         private float h;
         private float s;
@@ -46,18 +46,18 @@ namespace ColourLib
                 }
             }
         }
-        public HSLColor(float H, float S, float L)
+        public HslColor(float H, float S, float L)
         {
             this.H = H;
             this.S = S;
             this.L = L;
         }
-        public bool Equals(HSLColor color) => H == color.H && S == color.S && L == color.L;
-        public override bool Equals(object? color) => color is HSLColor c && color is not null && Equals(c);
+        public bool Equals(HslColor color) => H == color.H && S == color.S && L == color.L;
+        public override bool Equals(object? color) => color is HslColor c && color is not null && Equals(c);
 		public float Max() => Math.Max(h, Math.Max(s, l)); 
         public float Min() => Math.Min(h, Math.Min(s, l));
-        public HSLColor Difference(HSLColor color) => Difference(this, color);
-        public static HSLColor Difference(HSLColor left, HSLColor right)
+        public HslColor Difference(HslColor color) => Difference(this, color);
+        public static HslColor Difference(HslColor left, HslColor right)
         {
             right.H = Math.Abs(right.H - left.H);
             right.S = Math.Abs(right.S - left.S);
@@ -65,10 +65,10 @@ namespace ColourLib
             return right;
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h},{s},{l}>";
-        public HSLColor Lerp(HSLColor to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
-        public static HSLColor Lerp(HSLColor from, HSLColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-        public HSLColor LerpUnclamped(HSLColor to, float val) => LerpUnclamped(this, to, val);
-		public static HSLColor LerpUnclamped(HSLColor from, HSLColor to, float val)
+        public HslColor Lerp(HslColor to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
+        public static HslColor Lerp(HslColor from, HslColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
+        public HslColor LerpUnclamped(HslColor to, float val) => LerpUnclamped(this, to, val);
+		public static HslColor LerpUnclamped(HslColor from, HslColor to, float val)
 		{
             from.H = (from.h * (1.0f - val)) + (to.h * val);
             from.S = (from.s * (1.0f - val)) + (to.s * val);
@@ -108,74 +108,74 @@ namespace ColourLib
 			}
 			return true;
 		}
-		public static HSLColor operator +(HSLColor left, HSLColor right)
+		public static HslColor operator +(HslColor left, HslColor right)
         {
             left.H += right.H;
             left.S += right.S;
             left.L += right.L;
             return left;
         }
-        public static HSLColor operator -(HSLColor left, HSLColor right)
+        public static HslColor operator -(HslColor left, HslColor right)
         {
             left.H -= right.H;
             left.S -= right.S;
             left.L -= right.L;
             return left;
         }
-        public static HSLColor operator *(HSLColor left, HSLColor right)
+        public static HslColor operator *(HslColor left, HslColor right)
         {
             left.H *= right.H;
             left.S *= right.S;
             left.L *= right.L;
             return left;
         }
-        public static HSLColor operator /(HSLColor left, HSLColor right)
+        public static HslColor operator /(HslColor left, HslColor right)
         {
             left.H /= right.H;
             left.S /= right.S;
             left.L /= right.L;
             return left;
         }
-        public static HSLColor operator +(HSLColor left, float right)
+        public static HslColor operator +(HslColor left, float right)
         { 
             left.H += right;
             left.S += right;
             left.L += right;
             return left;
         }
-		public static HSLColor operator -(HSLColor left, float right)
+		public static HslColor operator -(HslColor left, float right)
         {
             left.H -= right;
             left.S -= right;
             left.L -= right;
             return left;
         }
-		public static HSLColor operator *(HSLColor left, float right)
+		public static HslColor operator *(HslColor left, float right)
         {
             left.H *= right;
             left.S *= right;
             left.L *= right;
             return left;
         }
-		public static HSLColor operator /(HSLColor left, float right)
+		public static HslColor operator /(HslColor left, float right)
         { 
             left.H /= right;
             left.S /= right;
             left.L /= right;
             return left;
         }
-		public static HSLColor operator -(HSLColor color)
+		public static HslColor operator -(HslColor color)
         {
             color.H = 1f - color.H;
             color.S = 1f - color.S;
             color.L = 1f - color.L;
             return color;
         }
-        public static bool operator ==(HSLColor left, HSLColor right) => left.Equals(right);
-        public static bool operator !=(HSLColor left, HSLColor right) => !left.Equals(right);
-		public static implicit operator Vector4(HSLColor color) => new(color.H, color.S, color.L, float.NaN);
-		public static implicit operator HSLColor(Vector4 color) => new(color.X, color.Y, color.Z);
-		public static explicit operator Color(HSLColor color)
+        public static bool operator ==(HslColor left, HslColor right) => left.Equals(right);
+        public static bool operator !=(HslColor left, HslColor right) => !left.Equals(right);
+		public static implicit operator Vector4(HslColor color) => new(color.H, color.S, color.L, float.NaN);
+		public static implicit operator HslColor(Vector4 color) => new(color.X, color.Y, color.Z);
+		public static explicit operator Color(HslColor color)
         {
             float C = (1 - Math.Abs(2 * color.l - 1)) * color.s;
             float hPrime = color.h * 6;
@@ -194,13 +194,13 @@ namespace ColourLib
 			rgb1.A = 1f;
 			return rgb1;
 		}
-        public static explicit operator HSVColor(HSLColor color)
+        public static explicit operator HsvColor(HslColor color)
         {
             float V = color.l + color.S * Math.Min(color.l, 1f - color.l);
             float S = V == 0f ? 0f : 2f * (1f - color.l / V);
             return new(color.h, S, V);
         }
-        public static explicit operator HSL24Color(HSLColor color) => new(color.h, color.s, color.l);
+        public static explicit operator Hsl24Color(HslColor color) => new(color.h, color.s, color.l);
         public override readonly int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}
 }

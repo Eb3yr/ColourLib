@@ -262,7 +262,7 @@ namespace ColourLib
         }
         public static explicit operator Color(System.Drawing.Color color) => new(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
 
-		public static explicit operator HSVColor(Color color)
+		public static explicit operator HsvColor(Color color)
         {
 			float Xmax = color.Max();   // = V
 			float Xmin = color.Min();   // = V - C
@@ -280,7 +280,7 @@ namespace ColourLib
             return new(H, S, Xmax);
         }
 
-        public static explicit operator HSLColor(Color color)
+        public static explicit operator HslColor(Color color)
         {
             float Xmax = color.Max();   // = V
             float Xmin = color.Min();   // = V - C
