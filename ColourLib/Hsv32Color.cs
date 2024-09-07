@@ -210,13 +210,14 @@ namespace ColourLib
 		public static implicit operator Hsv32Color(Vector4 color)
 		{
 			return new(
-				(byte)Math.Round(color.X, MidpointRounding.AwayFromZero),
+				(short)Math.Round(color.X, MidpointRounding.AwayFromZero),
 				(byte)Math.Round(color.Y, MidpointRounding.AwayFromZero),
 				(byte)Math.Round(color.Z, MidpointRounding.AwayFromZero));
 		}
 		public static explicit operator HsvColor(Hsv32Color color) => new(color.h / 360f, color.s / 100f, color.v / 100f);
 		public static explicit operator Color32(Hsv32Color color) => (Color32)(Color)(HsvColor)color;
 		public static explicit operator Hsl32Color(Hsv32Color color) => (Hsl32Color)(HslColor)(HsvColor)color;
+		public static explicit operator Color(Hsv32Color color) => (Color)(HsvColor)color;
 		public override readonly int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), v.GetHashCode());
 	}
 }

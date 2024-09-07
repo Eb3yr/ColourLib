@@ -227,6 +227,7 @@ namespace ColourLib
 		public static explicit operator HslColor(Hsl32Color color) => new(color.h / 360f, color.s / 100f, color.l / 100f);
 		public static explicit operator Color32(Hsl32Color color) => (Color32)(Color)(HslColor)color;
 		public static explicit operator Hsv32Color(Hsl32Color color) => (Hsv32Color)(HsvColor)(HslColor)color;
+		public static explicit operator Color(Hsl32Color color) => (Color)(HslColor)color;
 		public override readonly int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}
 }
