@@ -10,27 +10,27 @@ namespace ColourLib
         private float a;
         public float R
         {
-        get => r;
+			readonly get => r;
         set { r = Math.Clamp(value, 0f, 1f); }
         }
         public float G
         {
-        get => g;
+			readonly get => g;
         set { g = Math.Clamp(value, 0f, 1f); }
         }
         public float B
         {
-        get => b;
+			readonly get => b;
         set { b = Math.Clamp(value, 0f, 1f); }
         }
         public float A
         {
-            get => a;
+			readonly get => a;
             set { a = Math.Clamp(value, 0f, 1f); }
         }
         public float this[int i]
         {
-            get => i switch
+			readonly get => i switch
             {
                 0 => r,
                 1 => g,
@@ -55,7 +55,7 @@ namespace ColourLib
                 }
             }
         }
-        public Color Grayscale { get => new(0.299f * r, 0.587f * g, 0.114f * b, a); }
+        public readonly Color Grayscale { get => new(0.299f * r, 0.587f * g, 0.114f * b, a); }
         public Color(float R, float G, float B, float A = 1f)
         {
             this.R = R;
@@ -110,16 +110,16 @@ namespace ColourLib
 					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
 			}
 		}
-        public bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
-        public override bool Equals(object? color) => color is Color c && color is not null && Equals(c);
-        public float Max() => Max(false);
-        public float Min() => Min(false);
-		public float Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
-		public float Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
-        public string ToHex() => ((Color32)this).ToHex();
+        public readonly bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
+        public override readonly bool Equals(object? color) => color is Color c && color is not null && Equals(c);
+        public readonly float Max() => Max(false);
+        public readonly float Min() => Min(false);
+		public readonly float Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
+		public readonly float Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
+        public readonly string ToHex() => ((Color32)this).ToHex();
         public static string ToHex(Color color) => color.ToHex();
         public static Color FromHex(string hex) => new(hex);
-		public Color Difference(Color color) => Difference(this, color);
+		public readonly Color Difference(Color color) => Difference(this, color);
         public static Color Difference(Color left, Color right)
         {
             right.R = Math.Abs(right.R - left.R);
@@ -129,9 +129,9 @@ namespace ColourLib
             return right;
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{r},{g},{b},{a}>";
-        public Color Lerp(Color colorTo, float val) => LerpUnclamped(this, colorTo, Math.Clamp(val, 0f, 1f));
+        public readonly Color Lerp(Color colorTo, float val) => LerpUnclamped(this, colorTo, Math.Clamp(val, 0f, 1f));
         public static Color Lerp(Color from, Color to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-        public Color LerpUnclamped(Color to, float val) => LerpUnclamped(this, to, val);
+        public readonly Color LerpUnclamped(Color to, float val) => LerpUnclamped(this, to, val);
         public static Color LerpUnclamped(Color from, Color to, float val)
         {
 			from.R = (from.r * (1.0f - val)) + (to.r * val);
