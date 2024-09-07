@@ -2,7 +2,13 @@
 
 namespace ColourLib
 {
-	// Unfortunately, default implementations of methods are not inherited by structs. Some methods are duplicated across different color structs, so should an issue arise all will need updating.
+    public interface IRgb<T> where T : IColor<T>
+    {
+        public T Grayscale { get; }
+        public abstract string ToHex();
+        public static abstract string ToHex(T color);
+        public static abstract T FromHex(string hex);
+    }
 	public interface IColorB<T> : IColor<T> where T : IColorB<T>
     {
         public abstract int this[int i] { get; set; }
