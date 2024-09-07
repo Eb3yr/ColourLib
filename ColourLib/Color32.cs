@@ -11,47 +11,47 @@ namespace ColourLib
         private byte a;
         public byte R
         {
-            get => r;
+            readonly get => r;
             set { r = value; }
         }
         public byte G
         {
-            get => g;
+            readonly get => g;
             set { g = value; }
         }
         public byte B
         {
-            get => b;
+            readonly get => b;
             set { b = value; }
         }
         public byte A
         {
-            get => a;
+            readonly get => a;
             set { a = value; }
         }
 		public int R32
 		{
-			get => r;
+			readonly get => r;
 			set => r = (byte)Math.Clamp(value, 0, 255);
 		}
 		public int G32
 		{
-			get => g;
+			readonly get => g;
 			set => g = (byte)Math.Clamp(value, 0, 255);
 		}
 		public int B32
 		{
-			get => b;
+			readonly get => b;
 			set => b = (byte)Math.Clamp(value, 0, 255);
 		}
 		public int A32
 		{
-			get => a;
+			readonly get => a;
 			set => a = (byte)Math.Clamp(value, 0, 255);
 		}
-        public byte this[int i]
+        public int this[int i]
         {
-            get => i switch
+            readonly get => i switch
             {
                 0 => r,
                 1 => g,
@@ -64,19 +64,19 @@ namespace ColourLib
                 switch (i)
                 {
                     case 0:
-                        R = value; break;
+                        R32 = value; break;
                     case 1:
-                        G = value; break;
+                        G32 = value; break;
                     case 2:
-                        B = value; break;
+                        B32 = value; break;
                     case 3:
-                        A = value; break;
+                        A32 = value; break;
                     default:
                         throw new IndexOutOfRangeException();
                 }
             }
         }
-		public Color32 Grayscale
+		public readonly Color32 Grayscale
 		{
 			get => new(
 				(byte)Math.Round(0.299f * r, MidpointRounding.AwayFromZero),
@@ -144,11 +144,11 @@ namespace ColourLib
 					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
 			}
 		}
-		public byte Max() => Max(false);
-		public byte Min() => Min(false);
-		public byte Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
-		public byte Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
-		public string ToHex()
+		public readonly int Max() => Max(false);
+		public readonly int Min() => Min(false);
+		public readonly int Max(bool compareAlpha) => compareAlpha ? Math.Max(r, Math.Max(g, Math.Max(b, a))) : Math.Max(r, Math.Max(g, b));
+		public readonly int Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
+		public readonly string ToHex()
 		{
 			string[] strs = [r.ToString("X"), g.ToString("X"), b.ToString("X"), a.ToString("X")];
 			for (int i = 0; i < 4; i++)
@@ -161,9 +161,9 @@ namespace ColourLib
 		}
 		public static string ToHex(Color32 color) => color.ToHex();
 		public static Color32 FromHex(string hex) => new(hex);
-		public bool Equals(Color32 color) => color.R == r && color.G == g && color.B == b && color.A == a;
-		public override bool Equals(object? color) => color is Color32 c && color is not null && Equals(c);
-		public Color32 Difference(Color32 color) => Difference(this, color);
+		public readonly bool Equals(Color32 color) => color.R == r && color.G == g && color.B == b && color.A == a;
+		public override readonly bool Equals(object? color) => color is Color32 c && color is not null && Equals(c);
+		public readonly Color32 Difference(Color32 color) => Difference(this, color);
 		public static Color32 Difference(Color32 left, Color32 right)
 		{
 			right.R = (byte)Math.Abs(right.R - left.R);
@@ -172,10 +172,10 @@ namespace ColourLib
 			right.A = (byte)Math.Abs(right.A - left.A);
 			return right;
 		}
-		public string ToString(string? format, IFormatProvider? formatProvider) => $"<{r},{g},{b},{a}>";
-		public Color32 Lerp(Color32 to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
+		public readonly string ToString(string? format, IFormatProvider? formatProvider) => $"<{r},{g},{b},{a}>";
+		public readonly Color32 Lerp(Color32 to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
 		public static Color32 Lerp(Color32 from, Color32 to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-		public Color32 LerpUnclamped(Color32 to, float val) => LerpUnclamped(this, to, val);
+		public readonly Color32 LerpUnclamped(Color32 to, float val) => LerpUnclamped(this, to, val);
 		public static Color32 LerpUnclamped(Color32 from, Color32 to, float val)
 		{
 			from.R32 = (int)Math.Round((from.r * (1.0f - val)) + (to.r * val), MidpointRounding.AwayFromZero);
@@ -249,7 +249,7 @@ namespace ColourLib
 			left.a = (byte)Math.Round((float)left.a / right.a, MidpointRounding.AwayFromZero);
 			return left;
 		}
-		public static Color32 operator +(Color32 left, byte right)
+		public static Color32 operator +(Color32 left, int right)
 		{
 			left.R32 = left.r + right;
 			left.R32 = left.g + right;
@@ -257,7 +257,7 @@ namespace ColourLib
 			left.R32 = left.a + right;
 			return left;
 		}
-		public static Color32 operator -(Color32 left, byte right)
+		public static Color32 operator -(Color32 left, int right)
 		{
 			left.R32 = left.r - right;
 			left.R32 = left.g - right;
@@ -265,7 +265,7 @@ namespace ColourLib
 			left.R32 = left.a - right;
 			return left;
 		}
-		public static Color32 operator *(Color32 left, byte right)
+		public static Color32 operator *(Color32 left, int right)
 		{
 			left.R32 = left.r * right;
 			left.R32 = left.g * right;
@@ -273,7 +273,7 @@ namespace ColourLib
 			left.R32 = left.a * right;
 			return left;
 		}
-		public static Color32 operator /(Color32 left, byte right)
+		public static Color32 operator /(Color32 left, int right)
 		{
 			left.r = (byte)Math.Round((float)left.r / right, MidpointRounding.AwayFromZero);
 			left.g = (byte)Math.Round((float)left.g / right, MidpointRounding.AwayFromZero);
@@ -310,8 +310,8 @@ namespace ColourLib
 				color.a / 255f
 				);
 		}
-		public static explicit operator Hsl24Color(Color32 color) => (Hsl24Color)(HslColor)(Color)color;
-		public static explicit operator Hsv24Color(Color32 color) => (Hsv24Color)(HsvColor)(Color)color;
+		public static explicit operator Hsl32Color(Color32 color) => (Hsl32Color)(HslColor)(Color)color;
+		public static explicit operator Hsv32Color(Color32 color) => (Hsv32Color)(HsvColor)(Color)color;
 		public override readonly int GetHashCode() => HashCode.Combine(r.GetHashCode(), g.GetHashCode(), b.GetHashCode(), a.GetHashCode());
 	}
 }

@@ -2,16 +2,16 @@
 
 namespace ColourLib
 {
-    // Unfortunately, default implementations of methods are not inherited by structs. Some methods are duplicated across different color structs, so should an issue arise all will need updating.
-    public interface IColorB<T> : IColor<T> where T : IColorB<T>
+	// Unfortunately, default implementations of methods are not inherited by structs. Some methods are duplicated across different color structs, so should an issue arise all will need updating.
+	public interface IColorB<T> : IColor<T> where T : IColorB<T>
     {
-        public abstract byte this[int i] { get; set; }
-		public abstract byte Max();
-		public abstract byte Min();
-		public static abstract T operator +(T left, byte right);
-		public static abstract T operator -(T left, byte right);
-		public static abstract T operator *(T left, byte right);
-		public static abstract T operator /(T left, byte right);
+        public abstract int this[int i] { get; set; }
+        public abstract int Max();
+		public abstract int Min();
+		public static abstract T operator +(T left, int right);
+		public static abstract T operator -(T left, int right);
+		public static abstract T operator *(T left, int right);
+		public static abstract T operator /(T left, int right);
 	}
     public interface IColorF<T> : IColor<T> where T : IColorF<T>
     {

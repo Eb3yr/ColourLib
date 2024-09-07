@@ -10,7 +10,7 @@ namespace ColourLib
         public float H
         {
             get => h;
-            set { h = value % 1f; }
+            set { h = float.IsPositive(value) ? value % 1f : -value % 1f ; }
         }
         public float S
         {
@@ -70,7 +70,11 @@ namespace ColourLib
         public HslColor LerpUnclamped(HslColor to, float val) => LerpUnclamped(this, to, val);
 		public static HslColor LerpUnclamped(HslColor from, HslColor to, float val)
 		{
-            from.H = (from.h * (1.0f - val)) + (to.h * val);
+            if (to.H < from.H)
+				from.H = ((to.h + 1f - from.h) * val) - 1f + from.h;
+            else
+                from.H = (from.h * (1.0f - val)) + (to.h * val);
+
             from.S = (from.s * (1.0f - val)) + (to.s * val);
             from.L = (from.l * (1.0f - val)) + (to.l * val);
             return from;
@@ -200,7 +204,7 @@ namespace ColourLib
             float S = V == 0f ? 0f : 2f * (1f - color.l / V);
             return new(color.h, S, V);
         }
-        public static explicit operator Hsl24Color(HslColor color) => new(color.h, color.s, color.l);
+        public static explicit operator Hsl32Color(HslColor color) => new(color.h, color.s, color.l);
         public override readonly int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), l.GetHashCode());
 	}
 }

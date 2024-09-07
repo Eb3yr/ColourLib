@@ -70,8 +70,12 @@ namespace ColourLib
         public HsvColor LerpUnclamped(HsvColor to, float val) => LerpUnclamped(this, to, val);
         public static HsvColor LerpUnclamped(HsvColor from, HsvColor to, float val)
         {
-			from.H = (from.h * (1.0f - val)) + (to.h * val);
-            from.S = (from.s * (1.0f - val)) + (to.s * val);
+			if (to.H < from.H)
+				from.H = ((to.h + 1f - from.h) * val) - 1f + from.h;
+			else
+				from.H = (from.h * (1.0f - val)) + (to.h * val);
+
+			from.S = (from.s * (1.0f - val)) + (to.s * val);
             from.V = (from.v * (1.0f - val)) + (to.v * val);
 			return from;
         }
@@ -202,7 +206,7 @@ namespace ColourLib
             float S = L == 0f || L == 1f ? 0f : (color.v - L) / Math.Min(L, 1f - L);
             return new(color.h, S, L);
         }
-        public static explicit operator Hsv24Color(HsvColor color) => new(color.h, color.s, color.v);
+        public static explicit operator Hsv32Color(HsvColor color) => new(color.h, color.s, color.v);
 		public override readonly int GetHashCode() => HashCode.Combine(h.GetHashCode(), s.GetHashCode(), v.GetHashCode());
     }
 }
