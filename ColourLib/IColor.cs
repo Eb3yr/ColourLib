@@ -12,6 +12,8 @@ namespace ColourLib
 		public static abstract T operator -(T left, int right);
 		public static abstract T operator *(T left, int right);
 		public static abstract T operator /(T left, int right);
+		public static abstract T operator *(T left, float right);
+		public static abstract T operator /(T left, float right);
 	}
     public interface IColorF<T> : IColor<T> where T : IColorF<T>
     {
