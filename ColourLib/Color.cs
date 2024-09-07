@@ -2,7 +2,7 @@
 
 namespace ColourLib
 {
-    public struct Color : IColorF<Color>
+    public partial struct Color : IColorF<Color>, IRgb<Color>
     {
         private float r;
         private float g;
@@ -70,7 +70,9 @@ namespace ColourLib
             this.B = B / 255f;
             this.A = A / 255f;
         }
-        public Color(string hex)
+		public Color(Color color) : this(color.r, color.g, color.b, color.a) { }
+		public Color(Color color, float a) : this(color.r, color.g, color.b, a) { }
+		public Color(string hex)
         {
 			if (hex[0] == '#')
 				hex = hex.Substring(1);
@@ -109,6 +111,10 @@ namespace ColourLib
 				default:
 					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
 			}
+		}
+		public Color(string hex, float a) : this(hex)
+		{
+			this.a = a;
 		}
         public readonly bool Equals(Color color) => color.R == R && color.G == G && color.B == B && color.A == A;
         public override readonly bool Equals(object? color) => color is Color c && color is not null && Equals(c);

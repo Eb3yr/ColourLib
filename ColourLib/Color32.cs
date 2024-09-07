@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace ColourLib
 {
-    public struct Color32 : IColorB<Color32>
+    public struct Color32 : IColorB<Color32>, IRgb<Color32>
     {
         private byte r;
         private byte g;
@@ -104,6 +104,12 @@ namespace ColourLib
 			B32 = (int)Math.Round(b * 255f, MidpointRounding.AwayFromZero);
 			A32 = (int)Math.Round(a * 255f, MidpointRounding.AwayFromZero);
 		}
+		public Color32(Color32 color) : this(color.r, color.g, color.b, color.a) { }
+		public Color32(Color32 color, byte a) : this(color.r, color.g, color.b, a) { }
+		public Color32(Color32 color, int a) : this(color.r, color.g, color.b)
+		{
+			A32 = a;
+		}
 		public Color32(string hex)
 		{
 			if (hex[0] == '#')
@@ -143,6 +149,14 @@ namespace ColourLib
 				default:
 					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
 			}
+		}
+		public Color32(string hex, byte a) : this(hex)
+		{
+			this.a = a;
+		}
+		public Color32(string hex, int a) : this(hex)
+		{
+			A32 = a;
 		}
 		public readonly int Max() => Max(false);
 		public readonly int Min() => Min(false);
