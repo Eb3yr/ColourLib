@@ -9,22 +9,22 @@ namespace ColourLib
         private float v;
         public float H
             {
-            get => h;
+            readonly get => h;
             set { h = value % 1f; }
             }
         public float S
             {
-            get => s;
+            readonly get => s;
             set { s = Math.Clamp(value, 0f, 1f); }
             }
         public float V
         {
-            get => v;
+			readonly get => v;
             set { v = Math.Clamp(value, 0f, 1f); }
         }
         public float this[int i]
         {
-            get => i switch
+			readonly get => i switch
             {
                 0 => h,
                 1 => s,
@@ -52,11 +52,11 @@ namespace ColourLib
             this.S = S;
             this.V = V;
         }
-		public bool Equals(HsvColor color) => H == color.H && S == color.S && V == color.V;
+		public readonly bool Equals(HsvColor color) => H == color.H && S == color.S && V == color.V;
         public override bool Equals(object? color) => color is HsvColor c && color is not null && Equals(c);
-		public float Max() => Math.Max(h, Math.Max(s, v)); 
-        public float Min() => Math.Min(h, Math.Min(s, v));
-		public HsvColor Difference(HsvColor color) => Difference(this, color);
+		public readonly float Max() => Math.Max(h, Math.Max(s, v)); 
+        public readonly float Min() => Math.Min(h, Math.Min(s, v));
+		public readonly HsvColor Difference(HsvColor color) => Difference(this, color);
         public static HsvColor Difference(HsvColor left, HsvColor right)
         {
             right.H = Math.Abs(right.H - left.H);
@@ -65,9 +65,9 @@ namespace ColourLib
             return right;
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{h},{s},{v}>";
-        public HsvColor Lerp(HsvColor to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
+        public readonly HsvColor Lerp(HsvColor to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
         public static HsvColor Lerp(HsvColor from, HsvColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
-        public HsvColor LerpUnclamped(HsvColor to, float val) => LerpUnclamped(this, to, val);
+        public readonly HsvColor LerpUnclamped(HsvColor to, float val) => LerpUnclamped(this, to, val);
         public static HsvColor LerpUnclamped(HsvColor from, HsvColor to, float val)
         {
 			if (to.H < from.H)
