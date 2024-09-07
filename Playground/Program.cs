@@ -11,9 +11,8 @@ static void OpenHexInBrowser(string hex)
 //Console.WriteLine(((Color)col).ToHex());
 
 //Console.WriteLine((HSLColor)Color.FromHex("B7BEBF"));
-Console.WriteLine((Color32)(Color)new HslColor(1f, 1f, 0.649519f));
-Console.WriteLine((Color32)(Color)new HslColor(1f, 1f, 0.65f));
-
+Console.WriteLine("Body: " + ((HslColor)Color.FromHex("BCE2FD")).ToString());
+Console.WriteLine("Eyes: " + ((HslColor)Color.FromHex("B104AA")).ToString());
 Console.ReadLine();
 // TODO: Reach a consensus on how to handle alpha channels with +-*/. Should it act as every other channel, or take the left argument's alpha channel?
 // TODO: More conversions for the byte-based structs. Having to cast to float and then back is kind of rubbish.
@@ -28,3 +27,4 @@ Console.ReadLine();
 
 // BUG: See line 216 of monogame's HslColor: https://github.com/craftworkgames/MonoGame.Extended/blob/develop/source/MonoGame.Extended/HslColor.cs
 // My implementation for HSL and HSV don't wrap around the hue in certain circumstances where it should be done. If the left HsvColor is greater than right, then a wrap around should occur. (Verify this, it is Very Late At Night).
+// I have yet to fix this for 32 bit versions
