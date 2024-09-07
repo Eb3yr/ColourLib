@@ -219,66 +219,83 @@ namespace ColourLib
 		}
 		public static Color32 operator +(Color32 left, Color32 right)
 		{
-			left.R32 = left.r + right.r;
-			left.G32 = left.g + right.g;
-			left.B32 = left.b + right.b;
-			left.A32 = left.a + right.a;
+			left.R32 += right.r;
+			left.G32 += right.g;
+			left.B32 += right.b;
+			left.A32 += right.a;
 			return left;
 		}
 		public static Color32 operator -(Color32 left, Color32 right)
 		{
-			left.R32 = left.r - right.r;
-			left.G32 = left.g - right.g;
-			left.B32 = left.b - right.b;
-			left.A32 = left.a - right.a;
+			left.R32 -= right.r;
+			left.G32 -= right.g;
+			left.B32 -= right.b;
+			left.A32 -= right.a;
 			return left;
 		}
 		public static Color32 operator *(Color32 left, Color32 right)
 		{
-			left.R32 = left.r * right.r;
-			left.G32 = left.g * right.g;
-			left.B32 = left.b * right.b;
-			left.A32 = left.a * right.a;
+			left.R32 *= right.r;
+			left.G32 *= right.g;
+			left.B32 *= right.b;
+			left.A32 *= right.a;
 			return left;
 		}
 		public static Color32 operator /(Color32 left, Color32 right)
 		{
-			left.r = (byte)Math.Round((float)left.r / right.r, MidpointRounding.AwayFromZero);
-			left.g = (byte)Math.Round((float)left.g / right.g, MidpointRounding.AwayFromZero);
-			left.b = (byte)Math.Round((float)left.b / right.b, MidpointRounding.AwayFromZero);
-			left.a = (byte)Math.Round((float)left.a / right.a, MidpointRounding.AwayFromZero);
+			left.R32 = (int)Math.Round((float)left.r / right.r, MidpointRounding.AwayFromZero);
+			left.G32 = (int)Math.Round((float)left.g / right.g, MidpointRounding.AwayFromZero);
+			left.B32 = (int)Math.Round((float)left.b / right.b, MidpointRounding.AwayFromZero);
+			left.A32 = (int)Math.Round((float)left.a / right.a, MidpointRounding.AwayFromZero);
 			return left;
 		}
 		public static Color32 operator +(Color32 left, int right)
 		{
-			left.R32 = left.r + right;
-			left.R32 = left.g + right;
-			left.R32 = left.b + right;
-			left.R32 = left.a + right;
+			left.R32 += right;
+			left.R32 += right;
+			left.R32 += right;
+			left.R32 += right;
 			return left;
 		}
 		public static Color32 operator -(Color32 left, int right)
 		{
-			left.R32 = left.r - right;
-			left.R32 = left.g - right;
-			left.R32 = left.b - right;
-			left.R32 = left.a - right;
+			left.R32 -= right;
+			left.R32 -= right;
+			left.R32 -= right;
+			left.R32 -= right;
 			return left;
 		}
 		public static Color32 operator *(Color32 left, int right)
 		{
-			left.R32 = left.r * right;
-			left.R32 = left.g * right;
-			left.R32 = left.b * right;
-			left.R32 = left.a * right;
+			left.R32 *= right;
+			left.R32 *= right;
+			left.R32 *= right;
+			left.R32 *= right;
 			return left;
 		}
 		public static Color32 operator /(Color32 left, int right)
 		{
-			left.r = (byte)Math.Round((float)left.r / right, MidpointRounding.AwayFromZero);
-			left.g = (byte)Math.Round((float)left.g / right, MidpointRounding.AwayFromZero);
-			left.b = (byte)Math.Round((float)left.b / right, MidpointRounding.AwayFromZero);
-			left.a = (byte)Math.Round((float)left.a / right, MidpointRounding.AwayFromZero);
+			left.R32 /= right;
+			left.G32 /= right;
+			left.B32 /= right;
+			left.A32 /= right;
+			
+			return left;
+		}
+		public static Color32 operator *(Color32 left, float right)
+		{
+			left.R32 = left.r * (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			left.R32 = left.g * (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			left.R32 = left.b * (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			left.R32 = left.a * (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			return left;
+		}
+		public static Color32 operator /(Color32 left, float right)
+		{
+			left.R32 = (int)Math.Round(left.r / right, MidpointRounding.AwayFromZero);
+			left.G32 = (int)Math.Round(left.g / right, MidpointRounding.AwayFromZero);
+			left.B32 = (int)Math.Round(left.b / right, MidpointRounding.AwayFromZero);
+			left.A32 = (int)Math.Round(left.a / right, MidpointRounding.AwayFromZero);
 			return left;
 		}
 		public static Color32 operator -(Color32 color)

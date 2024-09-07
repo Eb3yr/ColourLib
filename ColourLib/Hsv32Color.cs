@@ -183,6 +183,13 @@ namespace ColourLib
 			left.V32 *= right;
 			return left;
 		}
+		public static Hsv32Color operator *(Hsv32Color left, float right)
+		{
+			left.H32 *= (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			left.S32 *= (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			left.V32 *= (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			return left;
+		}
 		public static Hsv32Color operator /(Hsv32Color left, Hsv32Color right)
 		{
 			left.H /= right.h;
@@ -195,6 +202,13 @@ namespace ColourLib
 			left.H32 /= right;
 			left.S32 /= right;
 			left.V32 /= right;
+			return left;
+		}
+		public static Hsv32Color operator /(Hsv32Color left, float right)
+		{
+			left.H32 /= (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			left.S32 /= (int)Math.Round(right, MidpointRounding.AwayFromZero);
+			left.V32 /= (int)Math.Round(right, MidpointRounding.AwayFromZero);
 			return left;
 		}
 		public static Hsv32Color operator -(Hsv32Color color)
