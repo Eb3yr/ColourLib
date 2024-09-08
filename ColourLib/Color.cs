@@ -125,6 +125,25 @@ namespace ColourLib
         public readonly string ToHex() => ((Color32)this).ToHex();
         public static string ToHex(Color color) => color.ToHex();
         public static Color FromHex(string hex) => new(hex);
+		public readonly int ToArgb()
+		{
+			int argb = 0;
+			argb += (int)Math.Round(a * 255f, MidpointRounding.AwayFromZero) << 24;
+			argb += (int)Math.Round(r * 255f, MidpointRounding.AwayFromZero) << 16;
+			argb += (int)Math.Round(g * 255f, MidpointRounding.AwayFromZero) << 8;
+			argb += (int)Math.Round(b * 255f, MidpointRounding.AwayFromZero);
+			return argb;
+		}
+		public static int ToArgb(Color color) => color.ToArgb();
+		public static Color FromArgb(int argb)
+		{
+			return new(
+				argb & 0x000000FF,
+				argb & 0x0000FF00,
+				argb & 0x00FF0000,
+				argb & 0xFF000000
+			);
+		}
 		public readonly Color Difference(Color color) => Difference(this, color);
         public static Color Difference(Color left, Color right)
         {

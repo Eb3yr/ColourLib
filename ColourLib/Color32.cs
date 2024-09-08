@@ -175,6 +175,25 @@ namespace ColourLib
 		}
 		public static string ToHex(Color32 color) => color.ToHex();
 		public static Color32 FromHex(string hex) => new(hex);
+		public readonly int ToArgb()
+		{
+			int argb = 0;
+			argb += a << 24;
+			argb += r << 16;
+			argb += g << 8;
+			argb += b;
+			return argb;
+		}
+		public static int ToArgb(Color32 color) => color.ToArgb();
+		public static Color32 FromArgb(int argb)
+		{
+			return new(
+				argb & 0x000000FF,
+				argb & 0x0000FF00,
+				argb & 0x00FF0000,
+				argb & 0xFF000000
+			);
+		}
 		public readonly bool Equals(Color32 color) => color.R == r && color.G == g && color.B == b && color.A == a;
 		public override readonly bool Equals(object? color) => color is Color32 c && color is not null && Equals(c);
 		public readonly Color32 Difference(Color32 color) => Difference(this, color);
