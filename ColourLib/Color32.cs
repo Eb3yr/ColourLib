@@ -194,6 +194,25 @@ namespace ColourLib
 				argb & 0xFF000000
 			);
 		}
+		public readonly int ToAbgr()
+		{
+			int argb = 0;
+			argb += a << 24;
+			argb += b << 16;
+			argb += g << 8;
+			argb += r;
+			return argb;
+		}
+		public static int ToAbgr(Color32 color) => color.ToAbgr();
+		public static Color32 FromAbgr(int abgr)
+		{
+			return new(
+				abgr & 0x00FF0000,
+				abgr & 0x0000FF00,
+				abgr & 0x000000FF,
+				abgr & 0xFF000000
+			);
+		}
 		public readonly bool Equals(Color32 color) => color.R == r && color.G == g && color.B == b && color.A == a;
 		public override readonly bool Equals(object? color) => color is Color32 c && color is not null && Equals(c);
 		public readonly Color32 Difference(Color32 color) => Difference(this, color);

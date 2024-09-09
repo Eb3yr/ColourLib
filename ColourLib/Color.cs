@@ -138,10 +138,29 @@ namespace ColourLib
 		public static Color FromArgb(int argb)
 		{
 			return new(
-				argb & 0x000000FF,
-				argb & 0x0000FF00,
 				argb & 0x00FF0000,
+				argb & 0x0000FF00,
+				argb & 0x000000FF,
 				argb & 0xFF000000
+			);
+		}
+		public readonly int ToAbgr()
+		{
+			int argb = 0;
+			argb += (int)Math.Round(a * 255f, MidpointRounding.AwayFromZero) << 24;
+			argb += (int)Math.Round(b * 255f, MidpointRounding.AwayFromZero) << 16;
+			argb += (int)Math.Round(g * 255f, MidpointRounding.AwayFromZero) << 8;
+			argb += (int)Math.Round(r * 255f, MidpointRounding.AwayFromZero);
+			return argb;
+		}
+		public static int ToAbgr(Color color) => color.ToAbgr();
+		public static Color FromAbgr(int abgr)
+		{
+			return new(
+				abgr & 0x00FF0000,
+				abgr & 0x0000FF00,
+				abgr & 0x000000FF,
+				abgr & 0xFF000000
 			);
 		}
 		public readonly Color Difference(Color color) => Difference(this, color);
