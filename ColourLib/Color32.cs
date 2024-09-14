@@ -5,7 +5,7 @@ namespace ColourLib
 {
     public struct Color32 : IColorB<Color32>, IRgb<Color32>
     {
-        private byte r;
+		private byte r;
         private byte g;
         private byte b;
         private byte a;
@@ -336,10 +336,10 @@ namespace ColourLib
 		}
 		public static Color32 operator *(Color32 left, float right)
 		{
-			left.R32 = left.r * (int)Math.Round(right, MidpointRounding.AwayFromZero);
-			left.R32 = left.g * (int)Math.Round(right, MidpointRounding.AwayFromZero);
-			left.R32 = left.b * (int)Math.Round(right, MidpointRounding.AwayFromZero);
-			left.R32 = left.a * (int)Math.Round(right, MidpointRounding.AwayFromZero);
+            left.R32 = (int)Math.Round(left.r * right, MidpointRounding.AwayFromZero);
+            left.G32 = (int)Math.Round(left.g * right, MidpointRounding.AwayFromZero);
+			left.B32 = (int)Math.Round(left.b * right, MidpointRounding.AwayFromZero);
+			left.A32 = (int)Math.Round(left.a * right, MidpointRounding.AwayFromZero);
 			return left;
 		}
 		public static Color32 operator /(Color32 left, float right)
