@@ -224,7 +224,7 @@ namespace ColourLib
 			right.A = (byte)Math.Abs(right.A - left.A);
 			return right;
 		}
-		public readonly string ToString(string? format, IFormatProvider? formatProvider) => $"<{r},{g},{b},{a}>";
+		public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{r},{g},{b},{a}>";
 		public readonly Color32 Lerp(Color32 to, float val) => LerpUnclamped(this, to, Math.Clamp(val, 0f, 1f));
 		public static Color32 Lerp(Color32 from, Color32 to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 		public readonly Color32 LerpUnclamped(Color32 to, float val) => LerpUnclamped(this, to, val);
