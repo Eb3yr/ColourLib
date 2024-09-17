@@ -8,7 +8,13 @@ namespace ColourLib
         public abstract string ToHex();
         public static abstract string ToHex(T color);
         public static abstract T FromHex(string hex);
-    }
+        public abstract int ToArgb();
+        public static abstract int ToArgb(T color);
+        public static abstract T FromArgb(int argb);
+		public abstract int ToAbgr();
+		public static abstract int ToAbgr(T color);
+		public static abstract T FromAbgr(int abgr);
+	}
 	public interface IColorB<T> : IColor<T> where T : IColorB<T>
     {
         public abstract int this[int i] { get; set; }

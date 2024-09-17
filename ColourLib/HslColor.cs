@@ -54,7 +54,7 @@ namespace ColourLib
         }
         public HslColor(HslColor color) : this(color.h, color.s, color.l) { }
         public readonly bool Equals(HslColor color) => H == color.H && S == color.S && L == color.L;
-        public override bool Equals(object? color) => color is HslColor c && color is not null && Equals(c);
+        public readonly override bool Equals(object? color) => color is HslColor c && color is not null && Equals(c);
 		public readonly float Max() => Math.Max(h, Math.Max(s, l)); 
         public readonly float Min() => Math.Min(h, Math.Min(s, l));
         public readonly HslColor Difference(HslColor color) => Difference(this, color);

@@ -54,7 +54,7 @@ namespace ColourLib
         }
 		public HsvColor(HsvColor color) : this(color.h, color.s, color.v) { }
 		public readonly bool Equals(HsvColor color) => H == color.H && S == color.S && V == color.V;
-        public override bool Equals(object? color) => color is HsvColor c && color is not null && Equals(c);
+        public readonly override bool Equals(object? color) => color is HsvColor c && color is not null && Equals(c);
 		public readonly float Max() => Math.Max(h, Math.Max(s, v)); 
         public readonly float Min() => Math.Min(h, Math.Min(s, v));
 		public readonly HsvColor Difference(HsvColor color) => Difference(this, color);

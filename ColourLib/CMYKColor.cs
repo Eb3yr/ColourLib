@@ -10,27 +10,27 @@ namespace ColourLib
         private float k;
         public float C
         {
-            get => c;
+			readonly get => c;
             set { c = Math.Clamp(value, 0f, 1f); }
         }
         public float M
             {
-            get => m;
+            readonly get => m;
             set { m = Math.Clamp(value, 0f, 1f); }
             }
         public float Y
             {
-            get => y;
+			readonly get => y;
             set { y = Math.Clamp(value, 0f, 1f); }
             }
         public float K
         {
-            get => k;
+			readonly get => k;
             set { k = Math.Clamp(value, 0f, 1f); }
         }
         public float this[int i]
         {
-            get => i switch
+			readonly get => i switch
             {
                 0 => c,
                 1 => m,
@@ -62,10 +62,10 @@ namespace ColourLib
             this.Y = Y;
             this.K = K;
         }
-        public bool Equals(CmykColor color) => C == color.C && M == color.M && Y == color.Y && K == color.K;
-        public override bool Equals(object? color) => color is CmykColor c && color is not null && Equals(c);
-        public float Max() => Math.Max(c, Math.Max(m, Math.Max(y, k)));
-		public float Min() => Math.Min(c, Math.Min(m, Math.Min(y, k)));
+        public readonly bool Equals(CmykColor color) => C == color.C && M == color.M && Y == color.Y && K == color.K;
+        public readonly override bool Equals(object? color) => color is CmykColor c && color is not null && Equals(c);
+        public readonly float Max() => Math.Max(c, Math.Max(m, Math.Max(y, k)));
+		public readonly float Min() => Math.Min(c, Math.Min(m, Math.Min(y, k)));
 		public CmykColor Difference(CmykColor color)
         {
             throw new NotImplementedException();
@@ -75,10 +75,10 @@ namespace ColourLib
             throw new NotImplementedException();
         }
         public readonly string ToString(string? format = null, IFormatProvider? formatProvider = null) => $"<{c},{m},{y},{k}>";
-        public CmykColor Lerp(CmykColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
+        public readonly CmykColor Lerp(CmykColor colorTo, float val) => LerpUnclamped(colorTo, Math.Clamp(val, 0f, 1f));
         public static CmykColor Lerp(CmykColor from, CmykColor to, float val) => LerpUnclamped(from, to, Math.Clamp(val, 0f, 1f));
 
-        public CmykColor LerpUnclamped(CmykColor to, float val) => LerpUnclamped(this, to, val);
+        public readonly CmykColor LerpUnclamped(CmykColor to, float val) => LerpUnclamped(this, to, val);
 
         public static CmykColor LerpUnclamped(CmykColor from, CmykColor to, float val)
         {
