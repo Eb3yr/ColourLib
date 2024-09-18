@@ -164,7 +164,7 @@ namespace ColourLib
 		public readonly int Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
 		public readonly string ToHex()
 		{
-			string[] strs = [r.ToString("X"), g.ToString("X"), b.ToString("X"), a.ToString("X")];
+			string[] strs = new string[4] { r.ToString("X"), g.ToString("X"), b.ToString("X"), a.ToString("X") };
 			for (int i = 0; i < 4; i++)
 				if (strs[i].Length == 1)
 					strs[i] = "0" + strs[i];
