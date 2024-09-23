@@ -1,29 +1,38 @@
 ﻿using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace ColourLib
 {
     public partial struct Color : IColorF<Color>, IRgb<Color>
     {
+		[JsonInclude]
         private float r;
+		[JsonInclude]
         private float g;
+		[JsonInclude]
         private float b;
+		[JsonInclude]
         private float a;
-        public float R
+		[JsonIgnore]
+		public float R
         {
 			readonly get => r;
         set { r = Math.Clamp(value, 0f, 1f); }
         }
-        public float G
+		[JsonIgnore]
+		public float G
         {
 			readonly get => g;
         set { g = Math.Clamp(value, 0f, 1f); }
         }
-        public float B
+		[JsonIgnore]
+		public float B
         {
 			readonly get => b;
         set { b = Math.Clamp(value, 0f, 1f); }
         }
-        public float A
+		[JsonIgnore]
+		public float A
         {
 			readonly get => a;
             set { a = Math.Clamp(value, 0f, 1f); }
@@ -55,7 +64,8 @@ namespace ColourLib
                 }
             }
         }
-        public readonly Color Grayscale { get => new(0.299f * r, 0.587f * g, 0.114f * b, a); }
+		[JsonIgnore]
+		public readonly Color Grayscale { get => new(0.299f * r, 0.587f * g, 0.114f * b, a); }
         public Color(float R, float G, float B, float A = 1f)
         {
             this.R = R;
@@ -311,8 +321,11 @@ namespace ColourLib
 			float Xmax = color.Max();   // = V
 			float Xmin = color.Min();   // = V - C
 			float C = Xmax - Xmin;  // Chroma = 2(V - L)
+			
 			float H = 0f;
-			if (Xmax == color.r)
+			if (C == 0)
+				{ }	// Color is greyscale, H is not singular, so we skip subsequent ifs that divide by zero and set H to NaN.
+			else if (Xmax == color.r)
 				H = ((color.g - color.b) / C) % 6;
 			else if (Xmax == color.g)
 				H = (color.b - color.r) / C + 2;
@@ -329,14 +342,17 @@ namespace ColourLib
             float Xmax = color.Max();   // = V
             float Xmin = color.Min();   // = V - C
             float C = Xmax - Xmin;  // Chroma = 2(V - L)
+
             float L = (Xmax + Xmin) * 0.5f;
             float H = 0f;
-            if (Xmax == color.r)
-                H = ((color.g - color.b) / C) % 6;
-            else if (Xmax == color.g)
-                H = (color.b - color.r) / C + 2;
-            else if (Xmax == color.b)
-                H = (color.r - color.g) / C + 4;
+			if (C == 0)
+				{ } // Color is greyscale, H is not singular, so we skip subsequent ifs that divide by zero and set H to NaN.
+			else if (Xmax == color.r)
+				H = ((color.g - color.b) / C) % 6;
+			else if (Xmax == color.g)
+				H = (color.b - color.r) / C + 2;
+			else if (Xmax == color.b)
+				H = (color.r - color.g) / C + 4;
 
             H /= 6f;
             float S = L == 0 || L == 1 ? 0f : (Xmax - L) / Math.Min(L, 1f - L);
