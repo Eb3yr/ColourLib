@@ -1,22 +1,29 @@
 ﻿using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace ColourLib
 {
 	public struct CmyColor : IColorF<CmyColor>, IEquatable<CmyColor>
 	{
+		[JsonInclude]
 		private float c;
+		[JsonInclude]
 		private float m;
+		[JsonInclude]
 		private float y;
+		[JsonIgnore]
 		public float C
 		{
 			readonly get => c;
 			set => c = float.Clamp(value, 0f, 1f);
 		}
+		[JsonIgnore]
 		public float M
 		{
 			readonly get => m;
 			set => m = float.Clamp(value, 0f, 1f);
 		}
+		[JsonIgnore]
 		public float Y
 		{
 			readonly get => y;

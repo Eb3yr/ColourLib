@@ -1,49 +1,62 @@
 ﻿using System.Drawing;
 using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace ColourLib
 {
     public struct Color32 : IColorB<Color32>, IRgb<Color32>
     {
+		[JsonInclude]
 		private byte r;
-        private byte g;
-        private byte b;
-        private byte a;
-        public byte R
+		[JsonInclude]
+		private byte g;
+		[JsonInclude]
+		private byte b;
+		[JsonInclude]
+		private byte a;
+		[JsonIgnore]
+		public byte R
         {
             readonly get => r;
             set { r = value; }
         }
-        public byte G
+		[JsonIgnore]
+		public byte G
         {
             readonly get => g;
             set { g = value; }
         }
-        public byte B
+		[JsonIgnore]
+		public byte B
         {
             readonly get => b;
             set { b = value; }
         }
-        public byte A
+		[JsonIgnore]
+		public byte A
         {
             readonly get => a;
             set { a = value; }
         }
+		[JsonIgnore]
 		public int R32
 		{
 			readonly get => r;
 			set => r = (byte)Math.Clamp(value, 0, 255);
 		}
+		[JsonIgnore]
 		public int G32
 		{
 			readonly get => g;
 			set => g = (byte)Math.Clamp(value, 0, 255);
 		}
+		[JsonIgnore]
 		public int B32
 		{
 			readonly get => b;
 			set => b = (byte)Math.Clamp(value, 0, 255);
 		}
+		[JsonIgnore]
 		public int A32
 		{
 			readonly get => a;
@@ -76,6 +89,7 @@ namespace ColourLib
                 }
             }
         }
+		[JsonIgnore]
 		public readonly Color32 Grayscale
 		{
 			get => new(

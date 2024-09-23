@@ -1,37 +1,47 @@
 ﻿using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace ColourLib
 {
 	public struct Hsv32Color : IColorB<Hsv32Color>
 	{
+		[JsonInclude]
 		private short h;
+		[JsonInclude]
 		private byte s;
+		[JsonInclude]
 		private byte v;
+		[JsonIgnore]
 		public short H
 		{
 			readonly get => h;
 			set => h = (short)(value % 360);
 		}
+		[JsonIgnore]
 		public byte S
 		{
 			readonly get => s;
 			set => s = (byte)Math.Clamp((int)value, 0, 100);
 		}
+		[JsonIgnore]
 		public byte V
 		{
 			readonly get => v;
 			set => v = (byte)Math.Clamp((int)value, 0, 100);
 		}
+		[JsonIgnore]
 		public int H32
 		{
 			readonly get => h;
 			set => h = (short)(value % 360);
 		}
+		[JsonIgnore]
 		public int S32
 		{
 			readonly get => s;
 			set => s = (byte)Math.Clamp(value, 0, 100);
 		}
+		[JsonIgnore]
 		public int V32
 		{
 			readonly get => v;

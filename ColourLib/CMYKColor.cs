@@ -1,29 +1,38 @@
 ﻿using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace ColourLib
 {
     public struct CmykColor : IColorF<CmykColor>
     {
-        private float c;
-        private float m;
-        private float y;
-        private float k;
-        public float C
+		[JsonInclude]
+		private float c;
+		[JsonInclude]
+		private float m;
+		[JsonInclude]
+		private float y;
+		[JsonInclude]
+		private float k;
+		[JsonIgnore]
+		public float C
         {
 			readonly get => c;
             set { c = Math.Clamp(value, 0f, 1f); }
         }
-        public float M
-            {
-            readonly get => m;
-            set { m = Math.Clamp(value, 0f, 1f); }
-            }
-        public float Y
-            {
-			readonly get => y;
-            set { y = Math.Clamp(value, 0f, 1f); }
-            }
-        public float K
+		[JsonIgnore]
+		public float M
+        {
+        readonly get => m;
+        set { m = Math.Clamp(value, 0f, 1f); }
+        }
+		[JsonIgnore]
+		public float Y
+        {
+		readonly get => y;
+        set { y = Math.Clamp(value, 0f, 1f); }
+        }
+		[JsonIgnore]
+		public float K
         {
 			readonly get => k;
             set { k = Math.Clamp(value, 0f, 1f); }

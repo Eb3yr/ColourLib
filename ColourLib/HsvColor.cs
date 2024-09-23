@@ -1,23 +1,30 @@
 ﻿using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace ColourLib
 {
     public struct HsvColor : IColorF<HsvColor>
     {
+		[JsonInclude]
         private float h;
-        private float s;
-        private float v;
+		[JsonInclude]
+		private float s;
+		[JsonInclude]
+		private float v;
+		[JsonIgnore]
         public float H
             {
             readonly get => h;
             set { h = value % 1f; }
             }
-        public float S
+		[JsonIgnore]
+		public float S
             {
             readonly get => s;
             set { s = Math.Clamp(value, 0f, 1f); }
             }
-        public float V
+		[JsonIgnore]
+		public float V
         {
 			readonly get => v;
             set { v = Math.Clamp(value, 0f, 1f); }
