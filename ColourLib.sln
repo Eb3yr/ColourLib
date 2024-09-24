@@ -5,7 +5,9 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColourLib", "ColourLib\ColourLib.csproj", "{3132A7CE-C28E-4F9D-AC36-638D9FD44F62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "Playground\Playground.csproj", "{73F3C67C-24F2-4354-A998-2BD41A06A773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground", "Playground\Playground.csproj", "{73F3C67C-24F2-4354-A998-2BD41A06A773}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColourLibAPI", "ColourLibAPI\ColourLibAPI.csproj", "{D1AF5B7D-3E55-481B-B012-C36BF219DB15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{73F3C67C-24F2-4354-A998-2BD41A06A773}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73F3C67C-24F2-4354-A998-2BD41A06A773}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73F3C67C-24F2-4354-A998-2BD41A06A773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1AF5B7D-3E55-481B-B012-C36BF219DB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1AF5B7D-3E55-481B-B012-C36BF219DB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1AF5B7D-3E55-481B-B012-C36BF219DB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1AF5B7D-3E55-481B-B012-C36BF219DB15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
