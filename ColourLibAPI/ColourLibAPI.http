@@ -1,6 +1,0 @@
-@ColourLibAPI_HostAddress = http://localhost:5030
-
-GET {{ColourLibAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
