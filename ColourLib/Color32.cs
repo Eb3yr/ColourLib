@@ -126,6 +126,13 @@ namespace ColourLib
 		}
 		public Color32(string hex)
 		{
+			if (string.IsNullOrEmpty(hex))
+			{
+				r = b = b = 0;
+				a = 255;
+				return;
+			}
+
 			if (hex[0] == '#')
 				hex = hex.Substring(1);
 
@@ -133,35 +140,35 @@ namespace ColourLib
 			switch (hex.Length)
 			{
 				case 3:
-					R = (byte)(((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8);
-					G = (byte)(((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4);
-					B = (byte)((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4);
-					A = 255;
+					r = (byte)(((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8);
+					g = (byte)(((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4);
+					b = (byte)((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4);
+					a = 255;
 					break;
 
 				case 4:
-					R = (byte)(((hexInt & 0x0000F000) | (hexInt & 0x0000F000) << 4) >> 12);
-					G = (byte)(((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8);
-					B = (byte)(((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4);
-					A = (byte)((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4);
+					r = (byte)(((hexInt & 0x0000F000) | (hexInt & 0x0000F000) << 4) >> 12);
+					g = (byte)(((hexInt & 0x00000F00) | (hexInt & 0x00000F00) << 4) >> 8);
+					b = (byte)(((hexInt & 0x000000F0) | (hexInt & 0x000000F0) << 4) >> 4);
+					a = (byte)((hexInt & 0x0000000F) | (hexInt & 0x0000000F) << 4);
 					break;
 
 				case 6:
-					R = (byte)((hexInt & 0x00FF0000) >> 16);
-					G = (byte)((hexInt & 0x0000FF00) >> 8);
-					B = (byte)(hexInt & 0x000000FF);
-					A = 255;
+					r = (byte)((hexInt & 0x00FF0000) >> 16);
+					g = (byte)((hexInt & 0x0000FF00) >> 8);
+					b = (byte)(hexInt & 0x000000FF);
+					a = 255;
 					break;
 
 				case 8:
-					R = (byte)((hexInt & 0xFF000000) >> 24);
-					G = (byte)((hexInt & 0x00FF0000) >> 16);
-					B = (byte)((hexInt & 0x0000FF00) >> 8);
-					A = (byte)(hexInt & 0x000000FF);
+					r = (byte)((hexInt & 0xFF000000) >> 24);
+					g = (byte)((hexInt & 0x00FF0000) >> 16);
+					b = (byte)((hexInt & 0x0000FF00) >> 8);
+					a = (byte)(hexInt & 0x000000FF);
 					break;
 
 				default:
-					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
+					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8. # is trimmed.");
 			}
 		}
 		public Color32(string hex, byte a) : this(hex)
@@ -178,14 +185,14 @@ namespace ColourLib
 		public readonly int Min(bool compareAlpha) => compareAlpha ? Math.Min(r, Math.Min(g, Math.Min(b, a))) : Math.Min(r, Math.Min(g, b));
 		public readonly string ToHex()
 		{
-			string[] strs = new string[4] { r.ToString("X"), g.ToString("X"), b.ToString("X"), a.ToString("X") };
-			for (int i = 0; i < 4; i++)
-				if (strs[i].Length == 1)
-					strs[i] = "0" + strs[i];
+			string rx = r.ToString("x2");
+			string gx = g.ToString("x2");
+			string bx = b.ToString("x2");
+			string ax = a.ToString("x2");
 			if (a == 255)
-				strs[3] = "";
+				ax = "";
 
-			return strs[0] + strs[1] + strs[2] + strs[3];
+			return $"#{rx}{gx}{bx}{ax}";
 		}
 		public static string ToHex(Color32 color) => color.ToHex();
 		public static Color32 FromHex(string hex) => new(hex);

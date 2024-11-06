@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ColourLib
 {
-    public partial struct Color : IColorF<Color>, IRgb<Color>
+    public struct Color : IColorF<Color>, IRgb<Color>
     {
 		[JsonInclude]
         private float r;
@@ -84,6 +84,13 @@ namespace ColourLib
 		public Color(Color color, float a) : this(color.r, color.g, color.b, a) { }
 		public Color(string hex)
         {
+			if (string.IsNullOrEmpty(hex))
+			{
+				r = g = b = 0f;
+				a = 1f;
+				return;
+			}
+
 			if (hex[0] == '#')
 				hex = hex.Substring(1);
 
@@ -119,7 +126,7 @@ namespace ColourLib
 					break;
 
 				default:
-					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 3, 4, 6 or 8.");
+					throw new ArgumentException("Color constructor only accepts hexadecimal strings of length 0, 3, 4, 6 or 8. # is trimmed.");
 			}
 		}
 		public Color(string hex, float a) : this(hex)
