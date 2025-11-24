@@ -24,6 +24,7 @@ Console.ReadLine();
 // TODO: Full testing on arithmetic of all structs
 // TODO: ToHex and FromHex for non-RGB structs
 
+// TODO: Implement IAdditionOperators, etc for all structs
 
 // BUG: See line 216 of monogame's HslColor: https://github.com/craftworkgames/MonoGame.Extended/blob/develop/source/MonoGame.Extended/HslColor.cs
 // My implementation for HSL and HSV don't wrap around the hue in certain circumstances where it should be done. If the left HsvColor is greater than right, then a wrap around should occur. (Verify this, it is Very Late At Night).
